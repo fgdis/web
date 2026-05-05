@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fausto González · Productor Audiovisual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@300;400;500&family=Syne:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Bebas+Neue&family=PP+Neue+Montreal:wght@300;400;500&family=Unbounded:wght@300;400;500&family=Editorial+New:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F5F3EE;
+      --bg2: #ECEAE3;
+      --text: #181614;
+      --text2: #5A574F;
+      --text3: #9A978F;
+      --border: rgba(24,22,20,0.1);
+      --border2: rgba(24,22,20,0.2);
+      --accent: #2B2B8A;
+      --accent-light: #EEEDF8;
+      --accent-dark: #1A1A6B;
+      --teal-mid: #0F8C6B;
+      --teal-light: #D6EFE8;
+      --card-shadow: 0 2px 12px rgba(24,22,20,0.07);
+      --card-hover: 0 24px 64px rgba(24,22,20,0.16), 0 0 0 1.5px var(--accent);
+      --radius: 6px;
+      --radius-lg: 10px;
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font: 'DM Sans', system-ui, sans-serif;
+      --nav-bg: rgba(245,243,238,0.9);
+    }
+
+    body.dark {
+      --bg: #131211;
+      --bg2: #1C1A18;
+      --text: #EDE9E4;
+      --text2: #9A968E;
+      --text3: #5C5A54;
+      --border: rgba(237,233,228,0.1);
+      --border2: rgba(237,233,228,0.18);
+      --accent: #2B2B8A;
+      --accent-light: #1C1A38;
+      --accent-dark: #AFA9EC;
+      --card-shadow: 0 2px 12px rgba(0,0,0,0.35);
+      --card-hover: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1.5px var(--accent);
+      --nav-bg: rgba(19,18,17,0.9);
+    }
+
+    body.warm::after {
+      content: ''; position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none; background: rgba(255,155,50,0.11); mix-blend-mode: multiply;
+    }
+    body.dark.warm::after { background: rgba(255,130,40,0.09); mix-blend-mode: screen; }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; transition: background 0.4s, color 0.4s; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2.5rem;
+      background: var(--nav-bg); backdrop-filter: blur(18px);
+      border-bottom: 0.5px solid var(--border);
+      transition: padding 0.3s, background 0.4s;
+    }
+    nav.scrolled { padding: 0.7rem 2.5rem; }
+    .nav-logo { font-family: var(--font-display); font-size: 20px; cursor: pointer; color: var(--text); text-decoration: none; letter-spacing: 0.01em; }
+    .nav-right { display: flex; align-items: center; gap: 2rem; }
+    .nav-links { display: flex; gap: 1.75rem; }
+    .nav-links a { font-size: 12px; font-weight: 400; color: var(--text2); text-decoration: none; cursor: pointer; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-controls { display: flex; gap: 5px; }
+    .nav-icon-btn {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 0.5px solid var(--border2); background: transparent;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--text2); font-size: 13px; transition: all 0.15s;
+    }
+    .nav-icon-btn:hover { background: var(--bg2); color: var(--text); }
+    .nav-icon-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .lang-toggle { display: flex; border: 0.5px solid var(--border2); border-radius: 20px; overflow: hidden; }
+    .lang-toggle button { padding: 3px 11px; border: none; background: transparent; color: var(--text2); cursor: pointer; font-size: 11px; font-family: var(--font); font-weight: 500; letter-spacing: 0.05em; }
+    .lang-toggle button.active { background: var(--accent); color: #fff; }
+    .lang-toggle button:hover:not(.active) { background: var(--bg2); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.07s; }
+    .reveal-delay-2 { transition-delay: 0.14s; }
+    .reveal-delay-3 { transition-delay: 0.21s; }
+    .reveal-delay-4 { transition-delay: 0.28s; }
+
+    /* ── HERO — showcase fullscreen con carrusel de media ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0; position: relative; overflow: hidden;
+      background: #000;
+    }
+    /* fondo del carrusel */
+    #hero-carousel { position: absolute; inset: 0; z-index: 0; }
+    .hero-slide {
+      position: absolute; inset: 0; opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-slide video,
+    .hero-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+    }
+    /* overlay degradado — más denso abajo para el texto */
+    #hero::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.05) 0%,
+        rgba(0,0,0,0.0)  30%,
+        rgba(0,0,0,0.55) 65%,
+        rgba(0,0,0,0.88) 100%
+      );
+      pointer-events: none;
+    }
+    /* dots */
+    #hero-dots {
+      position: absolute; bottom: 2.5rem; right: 2.5rem;
+      z-index: 3; display: flex; gap: 6px;
+    }
+    .hero-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.35); border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .hero-dot.active { background: #fff; transform: scale(1.3); }
+    /* contenido — esquina inferior izquierda */
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 3rem 3.5rem 3rem;
+      max-width: 640px;
+    }
+    .hero-kicker {
+      font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5); font-weight: 500; margin-bottom: 1rem;
+    }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 9vw, 110px);
+      line-height: 0.95; color: #fff;
+      margin-bottom: 1.5rem; letter-spacing: -0.01em;
+    }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-sub {
+      font-size: clamp(14px, 1.3vw, 16px);
+      color: rgba(255,255,255,0.65); line-height: 1.75;
+      max-width: 480px; margin-bottom: 1.75rem; font-weight: 300;
+    }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.75rem; }
+    .badge {
+      font-size: 11px; padding: 4px 11px; border-radius: 20px;
+      border: 0.5px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.7); font-weight: 400; letter-spacing: 0.02em;
+    }
+    .badge.accent { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .hero-cta { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      font-size: 12px; font-weight: 500; padding: 9px 20px;
+      border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.3);
+      color: #fff; background: rgba(255,255,255,0.08);
+      cursor: pointer; text-decoration: none; display: inline-block;
+      letter-spacing: 0.04em; transition: all 0.2s;
+      backdrop-filter: blur(6px);
+    }
+    .btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.6); }
+    .btn-primary { background: #fff; color: #000; border-color: #fff; }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* ── SECCIÓN BASE ── */
+    section { position: relative; border-bottom: 0.5px solid var(--border); overflow: hidden; }
+    section:last-of-type { border-bottom: none; }
+    .section-pad { padding: 6rem 2.5rem; }
+    .section-inner { max-width: 1400px; margin: 0 auto; }
+    .section-kicker { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); font-weight: 500; margin-bottom: 1.25rem; }
+    .section-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); line-height: 1.1; color: var(--text); margin-bottom: 2.5rem; }
+
+    /* ── EDITORIAL SHOWCASE — sección con media grande a fondo ── */
+    .showcase-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0; }
+    .showcase-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: #0a0a0a;
+    }
+    .showcase-bg video, .showcase-bg img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0.6;
+      transition: opacity 0.8s;
+    }
+    .showcase-section:hover .showcase-bg video,
+    .showcase-section:hover .showcase-bg img { opacity: 0.75; }
+    .showcase-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.1) 0%, rgba(10,10,10,0.0) 35%, rgba(10,10,10,0.65) 75%, rgba(10,10,10,0.9) 100%);
+    }
+    .showcase-content {
+      position: relative; z-index: 2;
+      padding: 4rem 2.5rem 3.5rem;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      max-width: 100%; gap: 2rem;
+    }
+    .showcase-meta { flex: 1; }
+    .showcase-kicker { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 500; margin-bottom: 0.75rem; }
+    .showcase-title { font-family: var(--font-display); font-size: clamp(32px, 6vw, 72px); line-height: 1.0; color: #fff; margin-bottom: 0.75rem; }
+    .showcase-sub { font-size: clamp(13px, 1.3vw, 16px); color: rgba(255,255,255,0.6); font-weight: 300; max-width: 480px; line-height: 1.7; }
+    .showcase-action { flex-shrink: 0; }
+    .showcase-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #fff; border: 1px solid rgba(255,255,255,0.35); border-radius: 30px;
+      padding: 10px 22px; text-decoration: none; cursor: pointer;
+      background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);
+      transition: all 0.25s;
+    }
+    .showcase-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.6); }
+    .showcase-btn svg { width: 14px; height: 14px; transition: transform 0.2s; }
+    .showcase-btn:hover svg { transform: translateX(3px); }
+
+    /* Carrusel de videos dentro del showcase */
+    .showcase-carousel { position: absolute; inset: 0; z-index: 0; }
+    .carousel-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease; }
+    .carousel-slide.active { opacity: 1; }
+    .carousel-slide video, .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
+    .carousel-dots { position: absolute; bottom: 3.5rem; right: 2.5rem; z-index: 3; display: flex; gap: 6px; }
+    .carousel-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.2s, transform 0.2s; border: none; }
+    .carousel-dot.active { background: #fff; transform: scale(1.3); }
+
+    /* ── PROYECTOS STREAMING ── */
+    #proyectos { background: var(--bg); }
+    .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .proj-card { background: var(--bg); cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); overflow: hidden; }
+    .proj-card:hover { background: var(--bg2); }
+    .proj-thumb { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), filter 0.3s; filter: grayscale(10%); }
+    .proj-card:hover .proj-thumb { transform: scale(1.04); filter: grayscale(0%); }
+    .proj-info { padding: 1.25rem 1.5rem 1.5rem; }
+    .proj-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; display: block; }
+    .proj-title { font-size: 18px; font-weight: 500; margin-bottom: 3px; }
+    .proj-client { font-size: 12px; color: var(--text3); margin-bottom: 10px; }
+    .proj-desc { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
+    .proj-play { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text3); letter-spacing: 0.04em; }
+
+    /* ── GALERÍA FOTOS / ILUSTRACIONES ── */
+    #galeria { background: var(--bg2); }
+    #ilustraciones { background: var(--bg); }
+    .gallery-masonry { columns: 4 180px; column-gap: 0.6rem; }
+    .gal-item { break-inside: avoid; margin-bottom: 0.6rem; border-radius: var(--radius); overflow: hidden; cursor: pointer; border: 1px solid var(--border); box-shadow: var(--card-shadow); transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s, border-color 0.3s; display: block; }
+    .gal-item:hover { transform: scale(1.025) translateY(-2px); box-shadow: var(--card-hover); border-color: var(--accent); }
+    .gal-item img { width: 100%; height: auto; display: block; }
+    .gal-placeholder { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: var(--text3); font-size: 11px; background: var(--bg2); }
+
+    /* ── CORTOMETRAJES ── */
+    #cortometrajes { background: var(--bg2); }
+    .short-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+    .short-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; position: relative; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); box-shadow: var(--card-shadow); }
+    .short-card:hover { transform: scale(1.03) translateY(-5px); box-shadow: var(--card-hover); border-color: var(--accent); }
+    .short-thumb { width: 100%; height: 190px; object-fit: cover; display: block; }
+    .short-thumb-placeholder { width: 100%; height: 190px; background: var(--bg2); display: flex; align-items: center; justify-content: center; color: var(--text3); }
+    .festival-badge { position: absolute; top: 10px; right: 10px; background: rgba(20,18,16,0.82); backdrop-filter: blur(6px); border-radius: 5px; padding: 4px 8px; display: flex; align-items: center; gap: 4px; font-size: 10px; color: #FFD700; font-weight: 500; letter-spacing: 0.05em; }
+    .festival-logos { position: absolute; bottom: 10px; left: 10px; display: flex; gap: 5px; }
+    .festival-logo-img { height: 30px; width: auto; object-fit: contain; background: rgba(20,18,16,0.75); border-radius: 4px; padding: 3px 5px; }
+    .festival-logo-placeholder { height: 30px; padding: 0 8px; background: rgba(20,18,16,0.75); border-radius: 4px; display: flex; align-items: center; font-size: 10px; color: rgba(255,255,255,0.6); }
+    .short-info { padding: 1rem 1.25rem 1.25rem; }
+    .short-title { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+    .short-meta { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
+    .short-desc { font-size: 12px; color: var(--text2); line-height: 1.55; }
+
+    /* ── REELS ── */
+    #reels { background: var(--bg); }
+    .reels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+    .reel-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); box-shadow: var(--card-shadow); }
+    .reel-card:hover { transform: scale(1.04) translateY(-4px); box-shadow: var(--card-hover); border-color: var(--accent); }
+    .reel-thumb { width: 100%; aspect-ratio: 9/16; max-height: 260px; background: var(--bg2); display: flex; align-items: center; justify-content: center; color: var(--text3); overflow: hidden; }
+    .reel-thumb img, .reel-thumb video { width: 100%; height: 100%; object-fit: cover; }
+    .reel-info { padding: 0.75rem 1rem 0.9rem; }
+    .reel-title { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+    .reel-meta { font-size: 11px; color: var(--text3); }
+
+    /* ── BANNER MARCAS ── */
+    #marcas { background: var(--bg2); padding: 2.5rem 0; overflow: hidden; border-bottom: 0.5px solid var(--border); }
+    .marcas-label { text-align: center; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text3); margin-bottom: 1.75rem; }
+    .ticker-wrap { overflow: hidden; white-space: nowrap; position: relative; }
+    .ticker-wrap::before, .ticker-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none;
+    }
+    .ticker-wrap::before { left: 0; background: linear-gradient(to right, var(--bg2), transparent); }
+    .ticker-wrap::after  { right: 0; background: linear-gradient(to left, var(--bg2), transparent); }
+    .ticker { display: inline-flex; gap: 3rem; animation: ticker 28s linear infinite; }
+    .ticker:hover { animation-play-state: paused; }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .ticker-item { display: inline-flex; align-items: center; gap: 3rem; }
+    .ticker-logo { height: 28px; width: auto; object-fit: contain; opacity: 0.55; filter: grayscale(100%); transition: opacity 0.2s, filter 0.2s; flex-shrink: 0; }
+    .ticker-logo:hover { opacity: 1; filter: grayscale(0%); }
+    .ticker-text { font-size: 15px; font-weight: 500; color: var(--text2); opacity: 0.6; letter-spacing: 0.06em; white-space: nowrap; }
+
+    /* ── SOBRE MÍ ── */
+    #sobre { background: var(--bg); }
+    .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .about-text { font-size: 16px; line-height: 1.9; color: var(--text2); font-weight: 300; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.5rem; }
+    .stat { background: var(--bg2); border-radius: var(--radius-lg); padding: 1.25rem; border: 0.5px solid var(--border); }
+    .stat-n { font-family: var(--font-display); font-size: 34px; color: var(--text); }
+    .stat-l { font-size: 11px; color: var(--text2); margin-top: 4px; letter-spacing: 0.03em; }
+    .edu-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1rem; }
+    .edu-card-inner { display: flex; align-items: flex-start; gap: 1rem; }
+    .edu-logo { width: 44px; height: 44px; object-fit: contain; flex-shrink: 0; border-radius: 6px; background: var(--bg); padding: 3px; border: 0.5px solid var(--border); }
+    .edu-logo-placeholder { width: 44px; height: 44px; flex-shrink: 0; border-radius: 6px; background: var(--bg); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text3); font-weight: 500; }
+    .edu-title { font-size: 15px; font-weight: 500; }
+    .edu-inst { font-size: 12px; color: var(--accent); margin: 3px 0; }
+    .edu-year { font-size: 11px; color: var(--text3); }
+    .idiomas { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; }
+
+    /* ── HERRAMIENTAS ── */
+    #herramientas { background: var(--bg2); }
+    .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .skill-cat { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; }
+    .skill-cat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+    .skill-cat-icon { width: 32px; height: 32px; object-fit: contain; opacity: 0.8; }
+    .skill-cat-icon-placeholder { width: 32px; height: 32px; background: var(--bg2); border: 0.5px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--text3); }
+    .skill-cat h3 { font-size: 12px; font-weight: 500; letter-spacing: 0.04em; }
+    .skill-list { display: flex; flex-direction: column; gap: 5px; }
+    .skill-item { font-size: 12px; color: var(--text2); }
+
+    /* ── EXPERIENCIA ── */
+    #experiencia { background: var(--bg); }
+    .exp-item { display: grid; grid-template-columns: 150px 1fr; gap: 2rem; padding: 1.75rem 0; border-bottom: 0.5px solid var(--border); }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-date { font-size: 11px; color: var(--text3); padding-top: 3px; letter-spacing: 0.03em; }
+    .exp-role { font-size: 16px; font-weight: 500; margin-bottom: 2px; }
+    .exp-company { font-size: 12px; color: var(--accent); margin-bottom: 7px; }
+    .exp-desc { font-size: 12px; color: var(--text2); line-height: 1.65; }
+    .exp-tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; background: var(--accent-light); color: var(--accent-dark); margin-top: 7px; margin-right: 4px; }
+
+    /* ── CONTACTO ── */
+    #contacto { background: var(--text); }
+    #contacto .section-kicker { color: rgba(0, 0, 0, 0.4); }
+    #contacto .section-title { color: var(--bg); }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 2rem; }
+    .contact-item { display: flex; align-items: center; gap: 12px; background: rgba(0, 0, 0, 0.07); border: 0.5px solid rgba(0, 0, 0, 0.13); border-radius: var(--radius); padding: 1rem 1.25rem; transition: background 0.2s; }
+    .contact-item:hover { background: rgba(0, 0, 0, 0.12); }
+    .contact-icon { width: 34px; height: 34px; border-radius: 50%; background: rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .contact-label { font-size: 10px; color: rgba(0, 0, 0, 0.4); }
+    .contact-value { font-size: 13px; color: rgba(0, 0, 0, 0.88); }
+    .dispon-wrap { margin-top: 2.5rem; }
+    .dispon { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--teal-mid); background: rgba(15,140,107,0.15); padding: 5px 13px; border-radius: 20px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal-mid); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.25rem 2.5rem;
+      background: #0a0a0a;
+      border-top: 0.5px solid rgba(255,255,255,0.08);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy { font-size: 11px; color: rgba(255,255,255,0.35); }
+
+    /* ── LIGHTBOX ── */
+    .lb-overlay { display: none; position: fixed; inset: 0; background: rgba(8,8,8,0.93); z-index: 1000; align-items: center; justify-content: center; padding: 1.5rem; backdrop-filter: blur(5px); }
+    .lb-overlay.open { display: flex; animation: fadein 0.2s ease; }
+    @keyframes fadein { from{opacity:0} to{opacity:1} }
+    .lb-box { background: var(--bg); border-radius: var(--radius-lg); max-width: 900px; width: 100%; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.55); }
+    .lb-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 0.5px solid var(--border); }
+    .lb-title { font-size: 15px; font-weight: 500; }
+    .lb-client { font-size: 11px; color: var(--accent); margin-top: 2px; }
+    .lb-close { background: none; border: none; cursor: pointer; color: var(--text2); font-size: 20px; line-height: 1; padding: 4px 8px; border-radius: var(--radius); transition: background 0.15s; }
+    .lb-close:hover { background: var(--bg2); }
+    .lb-video-wrap { position: relative; padding-bottom: 56.25%; height: 0; background: #000; }
+    .lb-video-wrap iframe, .lb-video-wrap video { position: absolute; inset: 0; width: 100%; height: 100%; border: none; background: #000; }
+    .lb-desc { padding: 0.9rem 1.5rem; font-size: 12px; color: var(--text2); line-height: 1.65; }
+    #lb-img-overlay { display: none; position: fixed; inset: 0; background: rgba(8,8,8,0.95); z-index: 1001; align-items: center; justify-content: center; padding: 2rem; cursor: zoom-out; backdrop-filter: blur(6px); }
+    #lb-img-overlay.open { display: flex; animation: fadein 0.2s ease; }
+    #lb-img-overlay img { max-width: 100%; max-height: 90vh; border-radius: var(--radius); box-shadow: 0 40px 100px rgba(0,0,0,0.6); object-fit: contain; cursor: default; }
+    #lb-img-close { position: absolute; top: 1.25rem; right: 1.5rem; background: rgba(237,233,228,0.12); border: none; color: #fff; font-size: 20px; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    #lb-img-close:hover { background: rgba(237,233,228,0.22); }
+
+    /* ── PANEL TIPOGRAFÍA ── */
+    #font-panel { position: fixed; top: 0; right: 0; bottom: 0; z-index: 300; width: 290px; background: var(--bg); border-left: 0.5px solid var(--border2); box-shadow: -8px 0 40px rgba(0,0,0,0.12); padding: 4.5rem 1.25rem 2rem; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.22,1,0.36,1); overflow-y: auto; }
+    #font-panel.open { transform: translateX(0); }
+    #font-panel h3 { font-size: 12px; font-weight: 500; margin-bottom: 0.4rem; color: var(--text); }
+    #font-panel .panel-sub { font-size: 10px; color: var(--text3); margin-bottom: 1.25rem; line-height: 1.5; }
+    .font-preview-card { border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 1.1rem; margin-bottom: 0.6rem; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+    .font-preview-card:hover { background: var(--bg2); }
+    .font-preview-card.active { border-color: var(--accent); background: var(--accent-light); }
+    .font-preview-name { font-size: 10px; color: var(--text3); margin-bottom: 3px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .font-preview-display { font-size: 20px; line-height: 1.2; color: var(--text); margin-bottom: 2px; }
+    .font-preview-body { font-size: 11px; color: var(--text2); }
+    .font-panel-divider { border: none; border-top: 0.5px solid var(--border); margin: 1rem 0; }
+    #font-panel-close { position: absolute; top: 1rem; right: 1rem; width: 28px; height: 28px; border-radius: 50%; border: 0.5px solid var(--border2); background: transparent; cursor: pointer; color: var(--text2); font-size: 14px; display: flex; align-items: center; justify-content: center; }
+    #font-panel-backdrop { display: none; position: fixed; inset: 0; z-index: 299; background: rgba(0,0,0,0.2); }
+    #font-panel-backdrop.open { display: block; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 0.9rem 1.25rem; }
+      .section-pad { padding: 4rem 1.25rem; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-photo { display: none; }
+      .hero-name { font-size: clamp(44px, 14vw, 72px); }
+      .sobre-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+      footer { padding: 1rem 1.25rem; }
+      .showcase-content { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a class="nav-logo" onclick="navTo('hero')">FG</a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a onclick="navTo('proyectos')" data-es="Proyectos" data-en="Projects">Proyectos</a>
+      <a onclick="navTo('galeria')" data-es="Galería" data-en="Gallery">Galería</a>
+      <a onclick="navTo('sobre')" data-es="Sobre mí" data-en="About">Sobre mí</a>
+      <a onclick="navTo('contacto')" data-es="Contacto" data-en="Contact">Contacto</a>
+    </div>
+    <div class="nav-controls">
+      <button class="nav-icon-btn" id="btn-font" onclick="toggleFontPanel()" title="Tipografía">Aa</button>
+      <button class="nav-icon-btn" id="btn-warm" onclick="toggleWarm()" title="Filtro cálido">☀</button>
+      <button class="nav-icon-btn" id="btn-dark" onclick="toggleDark()" title="Tema oscuro">◑</button>
+    </div>
+    <div class="lang-toggle">
+      <button id="btn-es" class="active" onclick="setLang('es')">ES</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════
+     HERO — showcase fullscreen, carrusel de media
+══════════════════════════════════════════════════════════ -->
+<section id="hero">
+
+  <!-- CARRUSEL DE FONDO
+       Reemplazá cada src con tus archivos reales.
+       Podés mezclar videos (.mp4) e imágenes (.jpg/.png).
+       Para agregar un slide más: copiá un bloque .hero-slide.
+
+       PLACEHOLDERS activos — reemplazá con tu media de la carpeta WEB:
+  -->
+  <div id="hero-carousel">
+    <!-- Video placeholder 1 — reemplazá src -->
+    <div class="hero-slide active">
+      <video src="GoogleCloud.mp4" muted loop playsinline autoplay></video>
+    </div>
+    <!-- Foto placeholder 2 — reemplazá src -->
+    <div class="hero-slide">
+      <img src="foto1.jpg" alt="">
+    </div>
+    <!-- Video placeholder 3 -->
+    <div class="hero-slide">
+      <video src="SOAP_PARTICULASv4.mp4" muted loop playsinline></video>
+    </div>
+    <!-- Foto placeholder 4 -->
+    <div class="hero-slide">
+      <img src="foto9.jpg" alt="">
+    </div>
+    <!-- Video placeholder 5 -->
+    <div class="hero-slide">
+      <video src="PISTACHO3D.mp4" muted loop playsinline></video>
+    </div>
+    <!-- Foto placeholder 6 -->
+    <div class="hero-slide">
+      <img src="foto2.jpg" alt="">
+    </div>
+    <!-- Video placeholder 7 -->
+    <div class="hero-slide">
+      <video src="MODO-1-Trim.mp4" muted loop playsinline></video>
+    </div>
+    <!-- Foto placeholder 8 -->
+    <div class="hero-slide">
+      <img src="foto-16.png" alt="">
+    </div>
+    <!-- Video placeholder 9 -->
+    <div class="hero-slide">
+      <video src="LogoGlith.mp4" muted loop playsinline></video>
+    </div>
+    <!-- Foto placeholder 10 -->
+    <div class="hero-slide">
+      <img src="foto8.jpg" alt="">
+    </div>
+  </div>
+
+  <!-- Dots de navegación -->
+  <div id="hero-dots"></div>
+
+  <!-- Texto — esquina inferior izquierda -->
+  <div class="hero-content">
+    <p class="hero-kicker">Buenos Aires, Argentina</p>
+    <h1 class="hero-name reveal">Fausto<br><em>González</em></h1>
+    <p class="hero-sub reveal reveal-delay-1"
+      data-es="Productor y Técnico Audiovisual. Especializado en pre/pro/posproducción para cine, publicidad y streaming. Motion design, diseño sonoro e IA generativa."
+      data-en="Audiovisual Producer &amp; Technician. Specialized in pre/pro/post-production for film, advertising and streaming. Motion design, sound design and generative AI.">
+      Productor y Técnico Audiovisual. Especializado en pre/pro/posproducción para cine, publicidad y streaming. Motion design, diseño sonoro e IA generativa.
+    </p>
+    <div class="hero-badges reveal reveal-delay-2">
+      <!-- "Disponible full time" quitado. Agregá skills cuando quieras. -->
+      <span class="badge" data-es="Cine &amp; Streaming" data-en="Film &amp; Streaming">Cine &amp; Streaming</span>
+      <span class="badge">Motion Design</span>
+      <span class="badge" data-es="IA Generativa" data-en="Generative AI">IA Generativa</span>
+      <span class="badge" data-es="Diseño Sonoro" data-en="Sound Design">Diseño Sonoro</span>
+    </div>
+    <div class="hero-cta reveal reveal-delay-3">
+      <a class="btn btn-primary" href="mailto:fausto.gonzalez2603@gmail.com" data-es="Contactar" data-en="Get in touch">Contactar</a>
+      <a class="btn" href="https://www.linkedin.com/in/faustogonzalez26" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     PROYECTOS DESTACADOS — Series & Streaming
+══════════════════════════════════════════════════════════ -->
+<section id="proyectos" class="section-pad">
+  <div class="section-inner">
+    <p class="section-kicker reveal" data-es="Proyectos destacados" data-en="Featured projects">Cine · Series · Streaming</p>
+    <h2 class="section-title reveal" data-es="Series &amp; Streaming" data-en="Series &amp; Streaming">Series &amp; Streaming</h2>
+    <div class="proj-grid">
+      <div class="proj-card reveal reveal-delay-1" onclick="openLightbox('nada')">
+        <img class="proj-thumb" src="preview_nada.jpg" alt="Nada">
+        <div class="proj-info">
+          <span class="proj-tag">Disney+</span>
+          <div class="proj-title">Nada</div>
+          <div class="proj-client">Star Original Productions · 2022</div>
+          <div class="proj-desc" data-es="Técnico escenográfico en set y locaciones para la serie original de Disney+." data-en="Set technician for the Disney+ original series.">Técnico escenográfico en set y locaciones para la serie original de Disney+.</div>
+          <span class="proj-play"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21"/></svg>&nbsp;<span data-es="Ver tráiler" data-en="Watch trailer">Ver tráiler</span></span>
+        </div>
+      </div>
+      <div class="proj-card reveal reveal-delay-2" onclick="openLightbox('chueco')">
+        <img class="proj-thumb" src="preview_chueco.jpg" alt="C.H.U.E.C.O">
+        <div class="proj-info">
+          <span class="proj-tag">Disney+</span>
+          <div class="proj-title">C.H.U.E.C.O</div>
+          <div class="proj-client">Non Stop TV · 2023</div>
+          <div class="proj-desc" data-es="Técnico escenográfico en instalaciones de set para la serie de Disney+." data-en="Set technician for on-set installations on the Disney+ series.">Técnico escenográfico en instalaciones de set para la serie de Disney+.</div>
+          <span class="proj-play"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21"/></svg>&nbsp;<span data-es="Ver tráiler" data-en="Watch trailer">Ver tráiler</span></span>
+        </div>
+      </div>
+      <div class="proj-card reveal reveal-delay-3" onclick="openLightbox('senna')">
+        <img class="proj-thumb" src="preview_senna.jpg" alt="Senna">
+        <div class="proj-info">
+          <span class="proj-tag">Netflix</span>
+          <div class="proj-title">Senna</div>
+          <div class="proj-client">Gullane Pictures · 2023–24</div>
+          <div class="proj-desc" data-es="Técnico escenográfico en la miniserie biográfica de Ayrton Senna para Netflix." data-en="Set technician on the biographical miniseries about Ayrton Senna for Netflix.">Técnico escenográfico en la miniserie biográfica de Ayrton Senna para Netflix.</div>
+          <span class="proj-play"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21"/></svg>&nbsp;<span data-es="Ver tráiler" data-en="Watch trailer">Ver tráiler</span></span>
+        </div>
+      </div>
+      <div class="proj-card reveal reveal-delay-4" onclick="openLightbox('soyluna')">
+        <img class="proj-thumb" src="preview_soyluna.jpg" alt="Soy Luna">
+        <div class="proj-info">
+          <span class="proj-tag">Disney+</span>
+          <div class="proj-title">Soy Luna</div>
+          <div class="proj-client">Non Stop TV · 2025</div>
+          <div class="proj-desc" data-es="Técnico escenográfico en set y locaciones para la producción de Disney+." data-en="Set technician on set and locations for the Disney+ production.">Técnico escenográfico en set y locaciones para la producción de Disney+.</div>
+          <span class="proj-play"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21"/></svg>&nbsp;<span data-es="Ver tráiler" data-en="Watch trailer">Ver tráiler</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     MOTION GRAPHICS — showcase con carrusel de videos
+══════════════════════════════════════════════════════════ -->
+<section id="motion" class="showcase-section">
+  <div class="showcase-bg">
+    <div class="showcase-carousel" id="motion-carousel">
+      <!-- Los videos se rotan automáticamente -->
+      <div class="carousel-slide active"><video src="CUMMINGS-FORMULA-SLV1.mp4" muted loop playsinline autoplay></video></div>
+      <div class="carousel-slide"><video src="PISTACHO3D.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide"><video src="SOAP_PARTICULASv4.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide"><video src="LogoGlith.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide"><video src="MODO-1-Trim.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide"><video src="GALDERMA.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide"><video src="Logo4.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide"><video src="GoogleCloud.mp4" muted loop playsinline></video></div>
+    </div>
+  </div>
+  <div class="showcase-overlay"></div>
+  <!-- Dots de navegación -->
+  <div class="carousel-dots" id="motion-dots"></div>
+  <div class="showcase-content">
+    <div class="showcase-meta">
+      <p class="showcase-kicker reveal">Motion Graphics · 2024–2025</p>
+      <h2 class="showcase-title reveal reveal-delay-1" data-es="Diseño<br>en movimiento" data-en="Design<br>in motion">Diseño<br>en movimiento</h2>
+      <p class="showcase-sub reveal reveal-delay-2"
+        data-es="Animaciones, identidades en movimiento y piezas audiovisuales creadas con las últimas herramientas de IA generativa y motion design."
+        data-en="Animations, motion identities and audiovisual pieces created with the latest generative AI and motion design tools.">
+        Animaciones, identidades en movimiento y piezas audiovisuales creadas con las últimas herramientas de IA generativa y motion design.
+      </p>
+    </div>
+    <div class="showcase-action reveal reveal-delay-3">
+      <a class="showcase-btn" onclick="navTo('galeria-motion')">
+        <span data-es="Ver galería completa" data-en="View full gallery">Ver galería completa</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Galería motion (expandible) -->
+<section id="galeria-motion" class="section-pad" style="background:var(--bg2); display:none;">
+  <div class="section-inner">
+    <p class="section-kicker">Motion Graphics · Galería</p>
+    <h2 class="section-title" data-es="Todas las piezas" data-en="All pieces">Todas las piezas</h2>
+    <div class="proj-grid">
+      <!-- AGREGAR MOTION: copiá un bloque .proj-card, usá una img de preview y onclick="openLightboxMotion('motionX')" -->
+      <div class="proj-card" onclick="openLightboxMotion('motion1')">
+        <div style="height:180px;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+          <video src="CUMMINGS-FORMULA-SLV1.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+        </div>
+        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Cummings Formula</div><div class="proj-client">Fan Lab · 2025</div></div>
+      </div>
+      <div class="proj-card" onclick="openLightboxMotion('motion2')">
+        <div style="height:180px;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+          <video src="PISTACHO3D.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+        </div>
+        <div class="proj-info"><span class="proj-tag">3D · Motion</span><div class="proj-title">Proyecto Motion 2</div><div class="proj-client">Cliente · 2025</div></div>
+      </div>
+      <div class="proj-card" onclick="openLightboxMotion('motion3')">
+        <div style="height:180px;background:#111;overflow:hidden;">
+          <video src="SOAP_PARTICULASv4.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+        </div>
+        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Proyecto Motion 3</div><div class="proj-client">Cliente · 2025</div></div>
+      </div>
+      <div class="proj-card" onclick="openLightboxMotion('motion4')">
+        <div style="height:180px;background:#111;overflow:hidden;">
+          <video src="LogoGlith.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+        </div>
+        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Logo Glitch</div><div class="proj-client">Cliente · 2025</div></div>
+      </div>
+      <div class="proj-card" onclick="openLightboxMotion('motion5')">
+        <div style="height:180px;background:#111;overflow:hidden;">
+          <video src="MODO-1-Trim.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+        </div>
+        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Modo</div><div class="proj-client">Cliente · 2025</div></div>
+      </div>
+      <div class="proj-card" onclick="openLightboxMotion('motion6')">
+        <div style="height:180px;background:#111;overflow:hidden;">
+          <video src="GALDERMA.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+        </div>
+        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Galderma</div><div class="proj-client">Fan Lab · 2025</div></div>
+      </div>
+      <div class="proj-card" onclick="openLightboxMotion('motion7')">
+        <div style="height:180px;background:#111;overflow:hidden;">
+          <video src="Logo4.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+        </div>
+        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Logo 4</div><div class="proj-client">Cliente · 2025</div></div>
+      </div>
+      <div class="proj-card" onclick="openLightboxMotion('motion8')">
+        <div style="height:180px;background:#111;overflow:hidden;">
+          <video src="GoogleCloud.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+        </div>
+        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Google Cloud</div><div class="proj-client">Fan Lab · 2025</div></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <button class="btn" onclick="document.getElementById('galeria-motion').style.display='none'; navTo('galeria')"
+        data-es="↑ Cerrar galería" data-en="↑ Close gallery">↑ Cerrar galería</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     FOTOGRAFÍA — showcase con imagen grande + galería
+══════════════════════════════════════════════════════════ -->
+<section id="galeria" class="showcase-section">
+  <div class="showcase-bg">
+    <!-- La primera foto como fondo hero de la sección -->
+    <img src="foto1.jpg" alt="Fotografía">
+  </div>
+  <div class="showcase-overlay"></div>
+  <div class="showcase-content">
+    <div class="showcase-meta">
+      <p class="showcase-kicker reveal" data-es="Fotografía" data-en="Photography">Fotografía</p>
+      <h2 class="showcase-title reveal reveal-delay-1" data-es="Galería<br>fotográfica" data-en="Photo<br>gallery">Galería<br>fotográfica</h2>
+      <p class="showcase-sub reveal reveal-delay-2"
+        data-es="Registro documental, retratos y fotografía de producción."
+        data-en="Documentary photography, portraits and production stills.">
+        Registro documental, retratos y fotografía de producción.
+      </p>
+    </div>
+    <div class="showcase-action reveal reveal-delay-3">
+      <a class="showcase-btn" onclick="navTo('galeria-fotos')">
+        <span data-es="Ver galería completa" data-en="View full gallery">Ver galería completa</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Galería de fotos (expandible) -->
+<section id="galeria-fotos" class="section-pad" style="background:var(--bg2); display:none;">
+  <div class="section-inner">
+    <p class="section-kicker" data-es="Fotografía · Galería" data-en="Photography · Gallery">Fotografía · Galería</p>
+    <div class="gallery-masonry">
+      <!-- AGREGAR FOTO: <div class="gal-item" onclick="openImgLightbox('fotoX.jpg')"><img src="fotoX.jpg" alt="..."></div> -->
+      <div class="gal-item" onclick="openImgLightbox('foto1.jpg')"><img src="foto1.jpg" alt="Foto 1"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto2.jpg')"><img src="foto2.jpg" alt="Foto 2"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto3.jpg')"><img src="foto3.jpg" alt="Foto 3"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto4.jpg')"><img src="foto4.jpg" alt="Foto 4"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto8.jpg')"><img src="foto8.jpg" alt="Foto 8"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto9.jpg')"><img src="foto9.jpg" alt="Foto 9"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto10.jpg')"><img src="foto10.jpg" alt="Foto 10"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto11.jpg')"><img src="foto11.jpg" alt="Foto 11"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto12.jpg')"><img src="foto12.jpg" alt="Foto 12"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto13.jpg')"><img src="foto13.jpg" alt="Foto 13"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto14.jpg')"><img src="foto14.jpg" alt="Foto 14"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto15.jpg')"><img src="foto15.jpg" alt="Foto 15"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto16.jpg')"><img src="foto-16.png" alt="Foto 16"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto17.jpg')"><img src="foto-17.jpg" alt="Foto 17"></div>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <button class="btn" onclick="document.getElementById('galeria-fotos').style.display='none'; navTo('galeria')"
+        data-es="↑ Cerrar galería" data-en="↑ Close gallery">↑ Cerrar galería</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     ILUSTRACIONES — showcase + galería expandible
+══════════════════════════════════════════════════════════ -->
+<section id="ilustraciones" class="showcase-section">
+  <div class="showcase-bg">
+    <!-- Reemplazá foto5.jpg por tu mejor ilustración -->
+    <img src="foto5.jpg" alt="Ilustración">
+  </div>
+  <div class="showcase-overlay"></div>
+  <div class="showcase-content">
+    <div class="showcase-meta">
+      <p class="showcase-kicker reveal" data-es="Ilustración" data-en="Illustration">Ilustración</p>
+      <h2 class="showcase-title reveal reveal-delay-1" data-es="Ilustraciones<br>gráficas" data-en="Graphic<br>illustrations">Ilustraciones<br>gráficas</h2>
+      <p class="showcase-sub reveal reveal-delay-2"
+        data-es="Gráfica digital, diseño de personajes e identidades visuales."
+        data-en="Digital graphics, character design and visual identities.">
+        Gráfica digital, diseño de personajes e identidades visuales.
+      </p>
+    </div>
+    <div class="showcase-action reveal reveal-delay-3">
+      <a class="showcase-btn" onclick="navTo('galeria-ilustraciones')">
+        <span data-es="Ver galería completa" data-en="View full gallery">Ver galería completa</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Galería ilustraciones (expandible) -->
+<section id="galeria-ilustraciones" class="section-pad" style="background:var(--bg); display:none;">
+  <div class="section-inner">
+    <p class="section-kicker" data-es="Ilustración · Galería" data-en="Illustration · Gallery">Ilustración · Galería</p>
+    <div class="gallery-masonry">
+      <!-- AGREGAR ILUSTRACIÓN: mismo sistema que fotos -->
+      <div class="gal-item" onclick="openImgLightbox('foto5.jpg')"><img src="foto5.jpg" alt="Ilustración 1"></div>
+      <div class="gal-item" onclick="openImgLightbox('foto7.jpg')"><img src="foto7.jpg" alt="Ilustración 2"></div>
+      <!-- Placeholders -->
+      <div class="gal-item" style="aspect-ratio:1"><div class="gal-placeholder"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg><span style="font-size:11px;margin-top:4px">+ Ilustración</span></div></div>
+      <div class="gal-item" style="aspect-ratio:1"><div class="gal-placeholder"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg><span style="font-size:11px;margin-top:4px">+ Ilustración</span></div></div>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <button class="btn" onclick="document.getElementById('galeria-ilustraciones').style.display='none'; navTo('ilustraciones')"
+        data-es="↑ Cerrar galería" data-en="↑ Close gallery">↑ Cerrar galería</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     CORTOMETRAJES
+══════════════════════════════════════════════════════════ -->
+<section id="cortometrajes" class="section-pad">
+  <div class="section-inner">
+    <p class="section-kicker reveal" data-es="Cortometrajes" data-en="Short films">Cortometrajes</p>
+    <h2 class="section-title reveal" data-es="Selección oficial" data-en="Official selection">Selección oficial</h2>
+    <!--
+    CÓMO AGREGAR UN CORTOMETRAJE:
+    1. Portada: reemplazá .short-thumb-placeholder por <img class="short-thumb" src="portada.jpg" alt="Título">
+    2. YouTube ID: agregá en el objeto 'projects' del script (al final del archivo)
+    3. Logo festival: <img class="festival-logo-img" src="logo.png" alt="Festival"> dentro de .festival-logos
+    4. onclick="openLightbox('cortoX')" con el ID que definiste en el script
+    -->
+    <div class="short-grid">
+      <div class="short-card reveal reveal-delay-1" onclick="openLightbox('corto1')">
+        <div class="short-thumb-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:0.3"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 20h8M12 18v2"/></svg>
+        </div>
+        <div class="festival-badge">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Selección oficial
+        </div>
+        <div class="festival-logos">
+          <img class="festival-logo-img" src="logo-festival1.png" alt="Festival">
+        </div>
+        <div class="short-info">
+          <div class="short-title" data-es="Cortometraje 1" data-en="Short film 1">Cortometraje 1</div>
+          <div class="short-meta" data-es="Año · Duración · Género" data-en="Year · Runtime · Genre">Año · Duración · Género</div>
+          <div class="short-desc" data-es="Descripción del cortometraje y festivales en los que participó." data-en="Short film description. Festivals it was selected for.">Descripción del cortometraje y festivales en los que participó.</div>
+        </div>
+      </div>
+      <div class="short-card reveal reveal-delay-2" onclick="openLightbox('corto2')">
+        <div class="short-thumb-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:0.3"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 20h8M12 18v2"/></svg>
+        </div>
+        <div class="festival-badge">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Selección oficial
+        </div>
+        <div class="festival-logos">
+          <img class="festival-logo-img" src="logo-festival2.png" alt="Festival">
+        </div>
+        <div class="short-info">
+          <div class="short-title" data-es="Cortometraje 2" data-en="Short film 2">Cortometraje 2</div>
+          <div class="short-meta" data-es="Año · Duración · Género" data-en="Year · Runtime · Genre">Año · Duración · Género</div>
+          <div class="short-desc" data-es="Descripción del cortometraje y festivales en los que participó." data-en="Short film description. Festivals it was selected for.">Descripción del cortometraje y festivales en los que participó.</div>
+        </div>
+      </div>
+      <div class="short-card reveal reveal-delay-3" onclick="openLightbox('corto3')">
+        <div class="short-thumb-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:0.3"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 20h8M12 18v2"/></svg>
+        </div>
+        <div class="short-info">
+          <div class="short-title" data-es="Cortometraje 3" data-en="Short film 3">Cortometraje 3</div>
+          <div class="short-meta" data-es="Año · Duración · Género" data-en="Year · Runtime · Genre">Año · Duración · Género</div>
+          <div class="short-desc" data-es="Descripción del cortometraje." data-en="Short film description.">Descripción del cortometraje.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     REELS & PIEZAS GRÁFICAS
+══════════════════════════════════════════════════════════ -->
+<section id="reels" class="section-pad">
+  <div class="section-inner">
+    <p class="section-kicker reveal" data-es="Reels &amp; Piezas" data-en="Reels &amp; Graphics">Reels &amp; Piezas</p>
+    <h2 class="section-title reveal" data-es="Contenido &amp; publicaciones" data-en="Content &amp; publications">Contenido &amp; publicaciones</h2>
+    <!--
+    CÓMO AGREGAR REELS:
+    · MP4 local: onclick="openLightboxMotion('reelX')" + agregá la entrada en el objeto 'motions' del script
+    · Imagen estática: onclick="openImgLightbox('pieza.jpg')"
+    · Preview: poné una <img> o <video> dentro de .reel-thumb
+    -->
+    <div class="reels-grid">
+      <div class="reel-card reveal reveal-delay-1" onclick="openLightboxMotion('reel1')">
+        <div class="reel-thumb"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:0.3"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+        <div class="reel-info"><div class="reel-title" data-es="Reel 1" data-en="Reel 1">Reel 1</div><div class="reel-meta">Instagram · 2025</div></div>
+      </div>
+      <div class="reel-card reveal reveal-delay-2" onclick="openLightboxMotion('reel2')">
+        <div class="reel-thumb"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:0.3"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+        <div class="reel-info"><div class="reel-title" data-es="Reel 2" data-en="Reel 2">Reel 2</div><div class="reel-meta">Instagram · 2025</div></div>
+      </div>
+      <div class="reel-card reveal reveal-delay-3" onclick="openLightboxMotion('reel3')">
+        <div class="reel-thumb"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:0.3"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+        <div class="reel-info"><div class="reel-title" data-es="Pieza gráfica 1" data-en="Graphic piece 1">Pieza gráfica 1</div><div class="reel-meta">Penta mkt · 2025</div></div>
+      </div>
+      <div class="reel-card reveal reveal-delay-4" onclick="openLightboxMotion('reel4')">
+        <div class="reel-thumb"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:0.3"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+        <div class="reel-info"><div class="reel-title" data-es="Pieza gráfica 2" data-en="Graphic piece 2">Pieza gráfica 2</div><div class="reel-meta">Fan Lab · 2025</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     BANNER DE MARCAS — estilo Pulpo Brand
+══════════════════════════════════════════════════════════ -->
+<section id="marcas">
+  <p class="marcas-label" data-es="Producciones y clientes" data-en="Productions &amp; clients">Producciones y clientes</p>
+  <div class="ticker-wrap">
+    <!--
+    CÓMO AGREGAR LOGOS AL BANNER:
+    · Con imagen PNG: <img class="ticker-logo" src="logo-empresa.png" alt="Empresa">
+    · Sin imagen (texto): <span class="ticker-text">NOMBRE EMPRESA</span>
+    · Los items se duplican para el loop infinito — duplicá también el bloque .ticker-item
+    -->
+    <div class="ticker" id="ticker">
+      <!-- Bloque 1 (original) -->
+      <div class="ticker-item">
+        <span class="ticker-text">Disney+</span>
+        <span class="ticker-text">Netflix</span>
+        <span class="ticker-text">Fan Lab</span>
+        <span class="ticker-text">Penta mkt</span>
+        <span class="ticker-text">Non Stop TV</span>
+        <span class="ticker-text">Gullane Pictures</span>
+        <span class="ticker-text">Reveiller Producciones</span>
+        <span class="ticker-text">Arenas Studios</span>
+        <!-- Podés reemplazar cualquier <span class="ticker-text"> por:
+             <img class="ticker-logo" src="logo.png" alt="Empresa"> -->
+      </div>
+      <!-- Bloque 2 (duplicado para loop infinito) -->
+      <div class="ticker-item">
+        <span class="ticker-text">Disney+</span>
+        <span class="ticker-text">Netflix</span>
+        <span class="ticker-text">Fan Lab</span>
+        <span class="ticker-text">Penta mkt</span>
+        <span class="ticker-text">Non Stop TV</span>
+        <span class="ticker-text">Gullane Pictures</span>
+        <span class="ticker-text">Reveiller Producciones</span>
+        <span class="ticker-text">Arenas Studios</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SOBRE MÍ
+══════════════════════════════════════════════════════════ -->
+<section id="sobre" class="section-pad">
+  <div class="section-inner">
+    <p class="section-kicker reveal" data-es="Sobre mí" data-en="About me">Sobre mí</p>
+    <div class="sobre-grid">
+      <div>
+        <h2 class="section-title reveal"
+          data-es="Productor audiovisual,<br>diseñador y creador"
+          data-en="Audiovisual producer,<br>designer &amp; creator">
+          Productor audiovisual,<br>diseñador y creador
+        </h2>
+        <p class="about-text reveal reveal-delay-1"
+          data-es="Productor y Técnico Audiovisual con más de 5 años de experiencia en proyectos cinematográficos para plataformas de streaming (Netflix, Disney+) e independientes. He trabajado en producción técnica de eventos en vivo, publicidad/marketing y diseño sonoro para cine y documental. Actualmente formo parte como Productor Técnico en FanLab y Diseñador Creativo en Penta mkt, integrando herramientas de IA generativa en flujos de producción profesionales."
+          data-en="Audiovisual Producer and Technician with over 5 years of experience in film projects for streaming platforms (Netflix, Disney+) and independent productions. I have worked in live event technical production, advertising/marketing and sound design for film and documentary. I currently work as Technical Producer at FanLab and Creative Designer at Penta mkt, integrating generative AI tools into professional production workflows.">
+          Productor y Técnico Audiovisual con más de 5 años de experiencia en proyectos cinematográficos para plataformas de streaming (Netflix, Disney+) e independientes. He trabajado en producción técnica de eventos en vivo, publicidad/marketing y diseño sonoro para cine y documental. Actualmente formo parte como Productor Técnico en FanLab y Diseñador Creativo en Penta mkt, integrando herramientas de IA generativa en flujos de producción profesionales.
+        </p>
+        <div class="stats">
+          <div class="stat reveal reveal-delay-1"><div class="stat-n">5+</div><div class="stat-l" data-es="años de experiencia" data-en="years of experience">años de experiencia</div></div>
+          <div class="stat reveal reveal-delay-2"><div class="stat-n">4</div><div class="stat-l" data-es="producciones streaming" data-en="streaming productions">producciones streaming</div></div>
+          <div class="stat reveal reveal-delay-3"><div class="stat-n">UBA</div><div class="stat-l" data-es="Diseño Imagen y Sonido" data-en="Image &amp; Sound Design">Diseño Imagen y Sonido</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="edu-card reveal">
+          <!-- Reemplazá el placeholder por: <img class="edu-logo" src="logo-uba.png" alt="UBA"> -->
+          <div class="edu-card-inner">
+            <div class="edu-logo-placeholder">UBA</div>
+            <div>
+              <div class="edu-title" data-es="Diseño de Imagen y Sonido" data-en="Image &amp; Sound Design">Diseño de Imagen y Sonido</div>
+              <div class="edu-inst">Universidad de Buenos Aires · FADU</div>
+              <div class="edu-year" data-es="2019 – 2025 · Finalizado 100%" data-en="2019 – 2025 · Completed 100%">2019 – 2025 · Finalizado 100%</div>
+            </div>
+          </div>
+        </div>
+        <div class="idiomas reveal reveal-delay-1">
+          <span class="badge" data-es="Inglés B2" data-en="English B2">Inglés B2</span>
+          <span class="badge" data-es="Portugués A1" data-en="Portuguese A1">Portugués A1</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     HERRAMIENTAS — con soporte para logos de software
+══════════════════════════════════════════════════════════ -->
+<section id="herramientas" class="section-pad">
+  <div class="section-inner">
+    <p class="section-kicker reveal" data-es="Herramientas" data-en="Tools">Herramientas</p>
+    <!--
+    CÓMO AGREGAR LOGOS DE SOFTWARE:
+    Reemplazá .skill-cat-icon-placeholder por:
+      <img class="skill-cat-icon" src="logo-after-effects.png" alt="After Effects">
+    Los logos PNG de Adobe y otras apps se pueden encontrar en sus sitios oficiales.
+    -->
+    <div class="skills-grid">
+      <div class="skill-cat reveal reveal-delay-1">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon-placeholder">Ae</div>
+          <h3>Adobe Suite</h3>
+        </div>
+        <div class="skill-list">
+          <span class="skill-item">After Effects</span>
+          <span class="skill-item">Premiere Pro</span>
+          <span class="skill-item">Photoshop</span>
+          <span class="skill-item">Lightroom · Audition</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal reveal-delay-2">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon-placeholder">♪</div>
+          <h3>Audio &amp; Video</h3>
+        </div>
+        <div class="skill-list">
+          <span class="skill-item">Pro Tools · Reaper</span>
+          <span class="skill-item">CapCut · DaVinci</span>
+          <span class="skill-item">OBS · Streamlabs</span>
+          <span class="skill-item">Canva</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal reveal-delay-3">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon-placeholder">AI</div>
+          <h3 data-es="IA Generativa" data-en="Generative AI">IA Generativa</h3>
+        </div>
+        <div class="skill-list">
+          <span class="skill-item">ChatGPT · Claude</span>
+          <span class="skill-item">Sora · HeyGen</span>
+          <span class="skill-item">ElevenLabs · Meshy</span>
+          <span class="skill-item">Gemini · Google Studio</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal reveal-delay-4">
+        <div class="skill-cat-header">
+          <div class="skill-cat-icon-placeholder">⚙</div>
+          <h3 data-es="Producción" data-en="Production">Producción</h3>
+        </div>
+        <div class="skill-list">
+          <span class="skill-item">Celtx · Scenarist</span>
+          <span class="skill-item">3DF Zephyr</span>
+          <span class="skill-item">HTML · CSS (básico)</span>
+          <span class="skill-item">Microsoft Office</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     EXPERIENCIA
+══════════════════════════════════════════════════════════ -->
+<section id="experiencia" class="section-pad">
+  <div class="section-inner">
+    <p class="section-kicker reveal" data-es="Experiencia" data-en="Experience">Experiencia</p>
+    <h2 class="section-title reveal" data-es="Trayectoria profesional" data-en="Professional background">Trayectoria profesional</h2>
+    <div class="exp-item reveal"><span class="exp-date">2025 — act.</span><div><div class="exp-role" data-es="Diseñador Multimedia" data-en="Multimedia Designer">Diseñador Multimedia</div><div class="exp-company">Penta mkt</div><div class="exp-desc" data-es="Gestión creativa de proyectos, producción y edición de piezas gráficas y audiovisuales, gestión de RRSS e integración de herramientas de IA." data-en="Creative project management, production and editing of graphic and audiovisual pieces, social media management and AI tools integration.">Gestión creativa de proyectos, producción y edición de piezas gráficas y audiovisuales, gestión de RRSS e integración de herramientas de IA.</div><span class="exp-tag" data-es="Creativo" data-en="Creative">Creativo</span><span class="exp-tag">IA Tools</span></div></div>
+    <div class="exp-item reveal"><span class="exp-date">2025 — act.</span><div><div class="exp-role">Productor · Motion Designer</div><div class="exp-company">Fan Lab CL/ARG</div><div class="exp-desc" data-es="Cobertura técnica de expos y eventos, logística, animación 2D y diseño 3D." data-en="Technical coverage of expos and events, logistics, 2D animation and 3D design.">Cobertura técnica de expos y eventos, logística, animación 2D y diseño 3D.</div><span class="exp-tag">Motion</span><span class="exp-tag">3D</span></div></div>
+    <div class="exp-item reveal"><span class="exp-date">2022 — 2025</span><div><div class="exp-role" data-es="Técnico Escenográfico" data-en="Set Technician">Técnico Escenográfico</div><div class="exp-company" data-es="Producciones para Disney+ y Netflix" data-en="Productions for Disney+ and Netflix">Producciones para Disney+ y Netflix</div><div class="exp-desc" data-es="Instalaciones en set y locaciones: Nada (Disney+), C.H.U.E.C.O (Disney+), Senna (Netflix), Soy Luna (Disney+)." data-en="On-set and location installations: Nada (Disney+), C.H.U.E.C.O (Disney+), Senna (Netflix), Soy Luna (Disney+).">Instalaciones en set y locaciones: <em>Nada</em> (Disney+), <em>C.H.U.E.C.O</em> (Disney+), <em>Senna</em> (Netflix), <em>Soy Luna</em> (Disney+).</div><span class="exp-tag" data-es="Cine" data-en="Film">Cine</span><span class="exp-tag">Streaming</span></div></div>
+    <div class="exp-item reveal"><span class="exp-date">2021 — 2024</span><div><div class="exp-role" data-es="Operador FOH · Backline" data-en="FOH Operator · Backline">Operador FOH · Backline</div><div class="exp-company" data-es="Reveiller Producciones · Yowon · Autónomo" data-en="Reveiller Producciones · Yowon · Freelance">Reveiller Producciones · Yowon · Autónomo</div><div class="exp-desc" data-es="Montaje de equipo, instalación de sistemas PA y mixer para eventos en vivo, bandas y artistas." data-en="Equipment assembly, PA systems and mixer for live events, bands and artists.">Montaje de equipo, instalación de sistemas PA y mixer para eventos en vivo, bandas y artistas.</div><span class="exp-tag" data-es="Eventos en vivo" data-en="Live Events">Eventos en vivo</span></div></div>
+    <div class="exp-item reveal"><span class="exp-date">2022</span><div><div class="exp-role" data-es="Diseñador" data-en="Designer">Diseñador</div><div class="exp-company">Dietética Callao SRL</div><div class="exp-desc" data-es="Foto-producto, edición y gestión de plataformas e-commerce." data-en="Product photography, editing and e-commerce platform management.">Foto-producto, edición y gestión de plataformas e-commerce.</div><span class="exp-tag" data-es="Publicidad" data-en="Advertising">Publicidad</span></div></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     CONTACTO
+══════════════════════════════════════════════════════════ -->
+<section id="contacto" class="section-pad">
+  <div class="section-inner">
+    <p class="section-kicker reveal" data-es="Contacto" data-en="Contact">Contacto</p>
+    <h2 class="section-title reveal" data-es="Trabajemos juntos" data-en="Let's work together">Trabajemos juntos</h2>
+    <div class="contact-grid">
+      <div class="contact-item reveal reveal-delay-1"><div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(237,233,228,0.7)" stroke-width="1.5" width="15" height="15"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="contact-label">Email</div><div class="contact-value">fausto.gonzalez2603@gmail.com</div></div></div>
+      <div class="contact-item reveal reveal-delay-2"><div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(237,233,228,0.7)" stroke-width="1.5" width="15" height="15"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.5 19.79 19.79 0 01.05 2.9 2 2 0 012 .72h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div><div><div class="contact-label" data-es="Celular" data-en="Phone">Celular</div><div class="contact-value">+54 9 11 4156-5227</div></div></div>
+      <div class="contact-item reveal reveal-delay-3"><div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(237,233,228,0.7)" stroke-width="1.5" width="15" height="15"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div><div><div class="contact-label">LinkedIn</div><div class="contact-value">linkedin.com/in/faustogonzalez26</div></div></div>
+      <div class="contact-item reveal reveal-delay-4"><div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(237,233,228,0.7)" stroke-width="1.5" width="15" height="15"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="contact-label" data-es="Ubicación" data-en="Location">Ubicación</div><div class="contact-value">CABA · Buenos Aires</div></div></div>
+    </div>
+    <div class="dispon-wrap reveal"><span class="dispon"><span class="dot"></span><span data-es="Disponible full time &amp; part time" data-en="Available full time &amp; part time">Disponible full time &amp; part time</span></span></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">© 2026 Fausto González</span>
+  <span class="footer-copy" data-es="Buenos Aires, Argentina" data-en="Buenos Aires, Argentina">Buenos Aires, Argentina</span>
+</footer>
+
+<!-- LIGHTBOX YouTube -->
+<div class="lb-overlay" id="lightbox" onclick="closeLightboxOutside(event)">
+  <div class="lb-box">
+    <div class="lb-header"><div><div class="lb-title" id="lb-title"></div><div class="lb-client" id="lb-client"></div></div><button class="lb-close" onclick="closeLightbox()">&#x2715;</button></div>
+    <div class="lb-video-wrap"><iframe id="lb-iframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe></div>
+    <div class="lb-desc" id="lb-desc"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX Motion -->
+<div class="lb-overlay" id="lightbox-motion" onclick="closeLightboxMotionOutside(event)">
+  <div class="lb-box">
+    <div class="lb-header"><div><div class="lb-title" id="lbm-title"></div><div class="lb-client" id="lbm-client"></div></div><button class="lb-close" onclick="closeLightboxMotion()">&#x2715;</button></div>
+    <div class="lb-video-wrap"><video id="lbm-video" controls autoplay playsinline><source id="lbm-source" src="" type="video/mp4"></video></div>
+    <div class="lb-desc" id="lbm-desc"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX Imagen -->
+<div id="lb-img-overlay" onclick="closeImgLightbox()">
+  <button id="lb-img-close" onclick="closeImgLightbox()">✕</button>
+  <img id="lb-img" src="" alt="" onclick="event.stopPropagation()">
+</div>
+
+<!-- PANEL TIPOGRAFÍA -->
+<div id="font-panel-backdrop" onclick="closeFontPanel()"></div>
+<div id="font-panel">
+  <button id="font-panel-close" onclick="closeFontPanel()">✕</button>
+  <h3>Tipografía</h3>
+  <p class="panel-sub">Click para ver el cambio en tiempo real. Se guarda automáticamente.</p>
+  <div id="font-options"></div>
+  <hr class="font-panel-divider">
+  <p class="panel-sub">Para fijarla: editá <code style="font-size:9px;background:var(--bg2);padding:1px 4px;border-radius:3px">--font-display</code> y <code style="font-size:9px;background:var(--bg2);padding:1px 4px;border-radius:3px">--font</code> en el <code style="font-size:9px;background:var(--bg2);padding:1px 4px;border-radius:3px">:root</code>.</p>
+</div>
+
+<script>
+/* ══ SCROLL REVEAL ══ */
+var revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(function(el) { revealObserver.observe(el); });
+
+/* ══ NAV SHRINK ══ */
+window.addEventListener('scroll', function() {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ══ NAV CLICK CON SLIDE LATERAL ══ */
+var sectionOrder = ['hero','proyectos','motion','galeria','ilustraciones','cortometrajes','reels','marcas','sobre','herramientas','experiencia','contacto'];
+function navTo(targetId) {
+  var el = document.getElementById(targetId);
+  if (!el) return;
+  // Si es una galería expandible, mostrarla primero
+  if (el.style.display === 'none') el.style.display = 'block';
+  var curIdx = sectionOrder.indexOf(getCurrentSection());
+  var tgtIdx = sectionOrder.indexOf(targetId);
+  var dir = tgtIdx >= curIdx ? 'forward' : 'backward';
+  var visible = document.querySelectorAll('section');
+  visible.forEach(function(s) {
+    var r = s.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      s.style.transition = 'opacity 0.3s, transform 0.3s cubic-bezier(0.55,0,1,0.45)';
+      s.style.opacity = '0';
+      s.style.transform = dir === 'forward' ? 'translateX(-40px)' : 'translateX(40px)';
+    }
+  });
+  setTimeout(function() {
+    el.scrollIntoView({ behavior: 'instant' });
+    visible.forEach(function(s) { s.style.transition = ''; s.style.opacity = ''; s.style.transform = ''; });
+    el.style.opacity = '0';
+    el.style.transform = dir === 'forward' ? 'translateX(40px)' : 'translateX(-40px)';
+    el.style.transition = 'opacity 0.4s cubic-bezier(0,0.55,0.45,1), transform 0.4s cubic-bezier(0,0.55,0.45,1)';
+    requestAnimationFrame(function() { requestAnimationFrame(function() {
+      el.style.opacity = '1'; el.style.transform = 'translateX(0)';
+      el.querySelectorAll('.reveal:not(.visible)').forEach(function(r) { r.classList.add('visible'); });
+    }); });
+    setTimeout(function() { el.style.transition = ''; el.style.opacity = ''; el.style.transform = ''; }, 450);
+  }, 280);
+}
+function getCurrentSection() {
+  var best = sectionOrder[0], bestD = Infinity;
+  sectionOrder.forEach(function(id) {
+    var el = document.getElementById(id); if (!el) return;
+    var d = Math.abs(el.getBoundingClientRect().top);
+    if (d < bestD) { bestD = d; best = id; }
+  });
+  return best;
+}
+
+/* ══ CAROUSEL HERO ══ */
+(function() {
+  var slides = document.querySelectorAll('#hero-carousel .hero-slide');
+  var dotsEl = document.getElementById('hero-dots');
+  if (!slides.length) return;
+  var cur = 0;
+
+  // Crear dots
+  slides.forEach(function(_, i) {
+    var d = document.createElement('button');
+    d.className = 'hero-dot' + (i === 0 ? ' active' : '');
+    d.onclick = function() { goTo(i); };
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    var oldV = slides[cur].querySelector('video');
+    if (oldV) oldV.pause();
+    dotsEl.children[cur].classList.remove('active');
+    cur = n % slides.length;
+    slides[cur].classList.add('active');
+    var newV = slides[cur].querySelector('video');
+    if (newV) { newV.currentTime = 0; newV.play().catch(function(){}); }
+    dotsEl.children[cur].classList.add('active');
+  }
+
+  // Iniciar primer video
+  var fv = slides[0].querySelector('video');
+  if (fv) fv.play().catch(function(){});
+
+  // Rotar cada 5s
+  setInterval(function() { goTo(cur + 1); }, 5000);
+})();
+(function() {
+  var slides = document.querySelectorAll('#motion-carousel .carousel-slide');
+  var dots = document.getElementById('motion-dots');
+  var cur = 0;
+  if (!slides.length) return;
+  // Crear dots
+  slides.forEach(function(_, i) {
+    var d = document.createElement('button');
+    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+    d.onclick = function() { goTo(i); };
+    dots.appendChild(d);
+  });
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    slides[cur].querySelector('video') && slides[cur].querySelector('video').pause();
+    dots.children[cur].classList.remove('active');
+    cur = n % slides.length;
+    slides[cur].classList.add('active');
+    var v = slides[cur].querySelector('video');
+    if (v) { v.currentTime = 0; v.play().catch(function(){}); }
+    dots.children[cur].classList.add('active');
+  }
+  // Autoplay carousel cada 5s
+  setInterval(function() { goTo(cur + 1); }, 5000);
+  // Autoplay primer slide
+  var firstV = slides[0].querySelector('video');
+  if (firstV) firstV.play().catch(function(){});
+})();
+
+/* ══ IDIOMA ══ */
+function setLang(lang) {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-es][data-en]').forEach(function(el) { el.innerHTML = el.getAttribute('data-' + lang); });
+  document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.title = lang === 'en' ? 'Fausto González · Audiovisual Producer' : 'Fausto González · Productor Audiovisual';
+}
+
+/* ══ DARK MODE ══ */
+function toggleDark() {
+  var d = document.body.classList.toggle('dark');
+  document.getElementById('btn-dark').classList.toggle('active', d);
+  localStorage.setItem('fg-dark', d ? '1' : '0');
+}
+
+/* ══ WARM FILTER ══ */
+function toggleWarm() {
+  var w = document.body.classList.toggle('warm');
+  document.getElementById('btn-warm').classList.toggle('active', w);
+  localStorage.setItem('fg-warm', w ? '1' : '0');
+}
+
+/* ══ LIGHTBOX YOUTUBE ══ */
+var projects = {
+  nada:    { title:'Nada',         client:'Disney+ · 2022',                    yt:'mPskz8uhIvI',  desc_es:'Serie original de Disney+. Mi rol: Técnico Escenográfico.', desc_en:'Disney+ original series. My role: Set Technician.' },
+  chueco:  { title:'C.H.U.E.C.O', client:'Non Stop TV · Disney+ · 2023',       yt:'uPxF6Ngz-14', desc_es:'Serie de Disney+. Mi rol: Técnico Escenográfico.', desc_en:'Disney+ series. My role: Set Technician.' },
+  senna:   { title:'Senna',        client:'Gullane Pictures · Netflix · 2023–24', yt:'dfto0hTKdzg', desc_es:'Miniserie biográfica de Ayrton Senna. Mi rol: Técnico Escenográfico.', desc_en:'Biographical miniseries about Ayrton Senna. My role: Set Technician.' },
+  soyluna: { title:'Soy Luna',     client:'Non Stop TV · Disney+ · 2025',       yt:'CDSVLe0TBlQ', desc_es:'Producción Disney+. Mi rol: Técnico Escenográfico.', desc_en:'Disney+ production. My role: Set Technician.' },
+  corto1:  { title:'Cortometraje 1', client:'Año · Festival', yt:'REEMPLAZAR_ID', desc_es:'Descripción del cortometraje.', desc_en:'Short film description.' },
+  corto2:  { title:'Cortometraje 2', client:'Año · Festival', yt:'REEMPLAZAR_ID', desc_es:'Descripción del cortometraje.', desc_en:'Short film description.' },
+  corto3:  { title:'Cortometraje 3', client:'Año',            yt:'REEMPLAZAR_ID', desc_es:'Descripción del cortometraje.', desc_en:'Short film description.' }
+};
+function openLightbox(id) {
+  var p = projects[id]; if (!p) return;
+  var l = document.documentElement.lang || 'es';
+  document.getElementById('lb-title').textContent = p.title;
+  document.getElementById('lb-client').textContent = p.client;
+  document.getElementById('lb-desc').textContent = l === 'en' ? p.desc_en : p.desc_es;
+  document.getElementById('lb-iframe').src = 'https://www.youtube.com/embed/' + p.yt + '?autoplay=1&rel=0';
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); document.getElementById('lb-iframe').src = ''; document.body.style.overflow = ''; }
+function closeLightboxOutside(e) { if (e.target === document.getElementById('lightbox')) closeLightbox(); }
+
+/* ══ LIGHTBOX MOTION ══ */
+var motions = {
+  motion1: { title:'Cummings Formula', client:'Fan Lab · 2025',   src:'CUMMINGS-FORMULA-SLV1.mp4', desc_es:'Pieza de motion graphics producida para Fan Lab.', desc_en:'Motion graphics piece produced for Fan Lab.' },
+  motion2: { title:'Proyecto Motion 2', client:'Cliente · 2025',  src:'PISTACHO3D.mp4',            desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  motion3: { title:'Proyecto Motion 3', client:'Cliente · 2025',  src:'SOAP_PARTICULASv4.mp4',     desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  motion4: { title:'Logo Glitch',       client:'Cliente · 2025',  src:'LogoGlith.mp4',             desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  motion5: { title:'Modo',              client:'Cliente · 2025',  src:'MODO-1-Trim',                desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  motion6: { title:'Galderma',          client:'Fan Lab · 2025',  src:'GALDERMA.mp4',              desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  motion7: { title:'Logo 4',            client:'Cliente · 2025',  src:'Logo4.mp4',                 desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  motion8: { title:'Google Cloud',      client:'Fan Lab · 2025',  src:'GoogleCloud.mp4',           desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  reel1:   { title:'Reel 1',            client:'Instagram · 2025',src:'reel1.mp4',                 desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  reel2:   { title:'Reel 2',            client:'Instagram · 2025',src:'reel2.mp4',                 desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  reel3:   { title:'Pieza gráfica 1',   client:'Penta mkt · 2025',src:'reel3.mp4',                 desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  reel4:   { title:'Pieza gráfica 2',   client:'Fan Lab · 2025',  src:'reel4.mp4',                 desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' }
+};
+function openLightboxMotion(id) {
+  var m = motions[id]; if (!m) return;
+  var l = document.documentElement.lang || 'es';
+  document.getElementById('lbm-title').textContent = m.title;
+  document.getElementById('lbm-client').textContent = m.client;
+  document.getElementById('lbm-desc').textContent = l === 'en' ? m.desc_en : m.desc_es;
+  var v = document.getElementById('lbm-video');
+  document.getElementById('lbm-source').src = m.src;
+  v.load(); v.play();
+  document.getElementById('lightbox-motion').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightboxMotion() {
+  document.getElementById('lightbox-motion').classList.remove('open');
+  var v = document.getElementById('lbm-video');
+  v.pause(); document.getElementById('lbm-source').src = ''; v.load();
+  document.body.style.overflow = '';
+}
+function closeLightboxMotionOutside(e) { if (e.target === document.getElementById('lightbox-motion')) closeLightboxMotion(); }
+
+/* ══ LIGHTBOX IMAGEN ══ */
+function openImgLightbox(src) { document.getElementById('lb-img').src = src; document.getElementById('lb-img-overlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeImgLightbox() { document.getElementById('lb-img-overlay').classList.remove('open'); document.getElementById('lb-img').src = ''; document.body.style.overflow = ''; }
+
+/* ══ PANEL TIPOGRAFÍA ══
+   Solo cambia --font-display (nombre, títulos de sección).
+   El cuerpo de texto y el nav no se tocan.
+*/
+var fontOptions = [
+  {
+    id:'dm',
+    name:'DM Serif Display',
+    display:"'DM Serif Display', Georgia, serif",
+    sample:'Fausto González'
+  },
+  {
+    id:'playfair',
+    name:'Playfair Display',
+    display:"'Playfair Display', Georgia, serif",
+    sample:'Fausto González'
+  },
+  {
+    id:'cormorant',
+    name:'Cormorant Garamond',
+    display:"'Cormorant Garamond', Georgia, serif",
+    sample:'Fausto González'
+  },
+  {
+    id:'syne',
+    name:'Syne',
+    display:"'Syne', system-ui, sans-serif",
+    sample:'Fausto González'
+  },
+  {
+    id:'bebas',
+    name:'Bebas Neue',
+    display:"'Bebas Neue', Impact, sans-serif",
+    sample:'Fausto González'
+  },
+  {
+    id:'unbounded',
+    name:'Unbounded',
+    display:"'Unbounded', system-ui, sans-serif",
+    sample:'Fausto González'
+  }
+];
+var activeFont = localStorage.getItem('fg-font') || 'dm';
+function buildFontPanel() {
+  var c = document.getElementById('font-options'); if (!c) return;
+  c.innerHTML = '';
+  fontOptions.forEach(function(f) {
+    var d = document.createElement('div');
+    d.className = 'font-preview-card' + (f.id === activeFont ? ' active' : '');
+    d.innerHTML =
+      '<div class="font-preview-name">' + f.name + '</div>' +
+      '<div class="font-preview-display" style="font-family:' + f.display + '">' + f.sample + '</div>' +
+      '<div class="font-preview-body" style="font-family:\'DM Sans\',system-ui,sans-serif;font-size:10px;color:var(--text3);margin-top:3px">Títulos y nombre · el resto no cambia</div>';
+    d.onclick = function() { applyFont(f.id); };
+    c.appendChild(d);
+  });
+}
+function applyFont(id) {
+  var f = fontOptions.find(function(x){ return x.id === id; }); if (!f) return;
+  activeFont = id;
+  /* Solo cambia la tipografía de display — no toca el cuerpo ni el nav */
+  document.documentElement.style.setProperty('--font-display', f.display);
+  localStorage.setItem('fg-font', id);
+  buildFontPanel();
+}
+function toggleFontPanel() {
+  var p = document.getElementById('font-panel'), b = document.getElementById('font-panel-backdrop');
+  var o = p.classList.toggle('open');
+  b.classList.toggle('open', o);
+  document.getElementById('btn-font').classList.toggle('active', o);
+}
+function closeFontPanel() {
+  document.getElementById('font-panel').classList.remove('open');
+  document.getElementById('font-panel-backdrop').classList.remove('open');
+  document.getElementById('btn-font').classList.remove('active');
+}
+
+/* ══ RESTAURAR PREFERENCIAS ══ */
+(function() {
+  if (localStorage.getItem('fg-dark') === '1') { document.body.classList.add('dark'); var b = document.getElementById('btn-dark'); if (b) b.classList.add('active'); }
+  if (localStorage.getItem('fg-warm') === '1') { document.body.classList.add('warm'); var b2 = document.getElementById('btn-warm'); if (b2) b2.classList.add('active'); }
+})();
+
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeLightbox(); closeLightboxMotion(); closeImgLightbox(); closeFontPanel(); } });
+</script>
+
+<!-- Script del font panel DESPUÉS del div#font-options -->
+<script>
+(function() {
+  var sf = localStorage.getItem('fg-font');
+  if (sf && sf !== 'dm') applyFont(sf);
+  buildFontPanel();
+})();
+</script>
+</body>
+</html>
