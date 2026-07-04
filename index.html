@@ -47,11 +47,6 @@
       --nav-bg: rgba(19,18,17,0.9);
     }
 
-    body.warm::after {
-      content: ''; position: fixed; inset: 0; z-index: 9999;
-      pointer-events: none; background: rgba(255,155,50,0.11); mix-blend-mode: multiply;
-    }
-    body.dark.warm::after { background: rgba(255,130,40,0.09); mix-blend-mode: screen; }
 
     html { scroll-behavior: smooth; }
     body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; transition: background 0.4s, color 0.4s; }
@@ -86,6 +81,25 @@
     .lang-toggle button.active { background: var(--accent); color: #fff; }
     .lang-toggle button:hover:not(.active) { background: var(--bg2); }
 
+    /* ── MENÚ MOBILE (hamburguesa + drawer) ── */
+    #btn-menu { display: none; } /* se muestra <=900px, cuando .nav-links se oculta */
+    #mobile-menu-backdrop { display: none; position: fixed; inset: 0; z-index: 299; background: rgba(0,0,0,0.35); }
+    #mobile-menu-backdrop.open { display: block; }
+    #mobile-menu {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 300;
+      width: min(78vw, 300px); background: var(--bg);
+      border-left: 0.5px solid var(--border2); box-shadow: -8px 0 40px rgba(0,0,0,0.25);
+      padding: 5.5rem 1.75rem 2rem;
+      transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+      display: flex; flex-direction: column;
+    }
+    #mobile-menu.open { transform: translateX(0); }
+    #mobile-menu a {
+      font-size: 15px; font-weight: 500; color: var(--text); text-decoration: none; cursor: pointer;
+      padding: 1rem 0; border-bottom: 0.5px solid var(--border); letter-spacing: 0.02em;
+    }
+    #mobile-menu a:last-child { border-bottom: none; }
+
     /* ── SCROLL REVEAL ── */
     .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
     .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -97,6 +111,7 @@
     /* ── HERO — showcase fullscreen con carrusel de media ── */
     #hero {
       min-height: 100vh;
+      min-height: 100svh;
       display: flex; flex-direction: column; justify-content: flex-end;
       padding: 0; position: relative; overflow: hidden;
       background: #000;
@@ -144,21 +159,16 @@
       max-width: 640px;
     }
     .hero-kicker {
-      font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-      color: rgba(255,255,255,0.5); font-weight: 500; margin-bottom: 1rem;
+      font-size: 16px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6); font-weight: 400; margin-bottom: 0.6rem;
     }
     .hero-name {
-      font-family: var(--font-display);
-      font-size: clamp(52px, 9vw, 110px);
-      line-height: 0.95; color: #fff;
-      margin-bottom: 1.5rem; letter-spacing: -0.01em;
+      font-size: 16px; letter-spacing: 0.18em; text-transform: uppercase;
+      font-weight: 700; line-height: 1.4;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 1.75rem;
     }
-    .hero-name em { font-style: italic; color: var(--accent); }
-    .hero-sub {
-      font-size: clamp(14px, 1.3vw, 16px);
-      color: rgba(255,255,255,0.65); line-height: 1.75;
-      max-width: 480px; margin-bottom: 1.75rem; font-weight: 300;
-    }
+    .hero-name em { font-style: normal; color: inherit; }
     .hero-badges { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.75rem; }
     .badge {
       font-size: 11px; padding: 4px 11px; border-radius: 20px;
@@ -180,65 +190,52 @@
     .btn-primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
 
     /* ── SECCIÓN BASE ── */
-    section { position: relative; border-bottom: 0.5px solid var(--border); overflow: hidden; }
+    section { position: relative; border-bottom: 0.5px solid var(--border); overflow: hidden; scroll-margin-top: 68px; }
     section:last-of-type { border-bottom: none; }
     .section-pad { padding: 6rem 2.5rem; }
     .section-inner { max-width: 1400px; margin: 0 auto; }
     .section-kicker { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); font-weight: 500; margin-bottom: 1.25rem; }
     .section-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); line-height: 1.1; color: var(--text); margin-bottom: 2.5rem; }
 
-    /* ── EDITORIAL SHOWCASE — sección con media grande a fondo ── */
-    .showcase-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0; }
+    /* ── EDITORIAL SHOWCASE — panel de texto (40%) + media (60%) ── */
+    .showcase-section { display: flex; align-items: stretch; min-height: 64vh; min-height: 64svh; padding: 0; }
 
-    /* Showcases secundarios (motion, foto, ilustraciones) al 70% — hero se queda al 100% */
-    #motion.showcase-section,
-    #galeria.showcase-section,
-    #ilustraciones.showcase-section { min-height: 70vh; }
-    .showcase-bg {
-      position: absolute; inset: 0; z-index: 0;
-      background: #0a0a0a;
-    }
-    .showcase-bg video, .showcase-bg img {
-      width: 100%; height: 100%; object-fit: cover;
-      opacity: 0.6;
-      transition: opacity 0.8s;
-    }
-    .showcase-section:hover .showcase-bg video,
-    .showcase-section:hover .showcase-bg img { opacity: 0.75; }
-    .showcase-overlay {
-      position: absolute; inset: 0; z-index: 1;
-      background: linear-gradient(to bottom, rgba(10,10,10,0.1) 0%, rgba(10,10,10,0.0) 35%, rgba(10,10,10,0.65) 75%, rgba(10,10,10,0.9) 100%);
-    }
-    .showcase-content {
+    /* Panel de texto — tipografía editorial, fondo sólido */
+    .showcase-text {
+      flex: 0 0 40%; max-width: 40%;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 4rem 3rem; background: var(--bg2);
       position: relative; z-index: 2;
-      padding: 4rem 2.5rem 3.5rem;
-      display: flex; justify-content: space-between; align-items: flex-end;
-      max-width: 100%; gap: 2rem;
     }
-    .showcase-meta { flex: 1; }
-    .showcase-kicker { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 500; margin-bottom: 0.75rem; }
-    .showcase-title { font-family: var(--font-display); font-size: clamp(32px, 6vw, 72px); line-height: 1.0; color: #fff; margin-bottom: 0.75rem; }
-    .showcase-sub { font-size: clamp(13px, 1.3vw, 16px); color: rgba(255,255,255,0.6); font-weight: 300; max-width: 480px; line-height: 1.7; }
-    .showcase-action { flex-shrink: 0; }
+    .showcase-kicker { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text3); font-weight: 500; margin-bottom: 0.9rem; }
+    .showcase-title { font-family: var(--font-display); font-size: clamp(30px, 3.2vw, 54px); line-height: 1.05; color: var(--text); margin-bottom: 1.1rem; }
+    .showcase-sub { font-size: clamp(13px, 1vw, 15px); color: var(--text2); font-weight: 300; max-width: 420px; line-height: 1.75; margin-bottom: 0; }
+    .showcase-action { margin-top: 1.75rem; flex-shrink: 0; }
     .showcase-btn {
       display: inline-flex; align-items: center; gap: 10px;
       font-size: 12px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
-      color: #fff; border: 1px solid rgba(255,255,255,0.35); border-radius: 30px;
+      color: var(--text); border: 1px solid var(--border2); border-radius: 30px;
       padding: 10px 22px; text-decoration: none; cursor: pointer;
-      background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);
-      transition: all 0.25s;
+      background: transparent; transition: all 0.25s;
     }
-    .showcase-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.6); }
+    .showcase-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
     .showcase-btn svg { width: 14px; height: 14px; transition: transform 0.2s; }
     .showcase-btn:hover svg { transform: translateX(3px); }
 
-    /* Carrusel de videos dentro del showcase */
+    /* Panel de media — carrusel grande con TODAS las piezas de la disciplina */
+    .showcase-media { flex: 0 0 60%; max-width: 60%; position: relative; overflow: hidden; background: #0a0a0a; }
+    .showcase-media::after {
+      content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(to top, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0) 22%);
+    }
+
+    /* Carrusel de videos/fotos dentro del panel de media — click abre el lightbox */
     .showcase-carousel { position: absolute; inset: 0; z-index: 0; }
-    .carousel-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease; }
+    .carousel-slide { position: absolute; inset: 0; opacity: 0; cursor: pointer; transition: opacity 1.2s ease; }
     .carousel-slide.active { opacity: 1; }
     .carousel-slide video, .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
-    .carousel-dots { position: absolute; bottom: 3.5rem; right: 2.5rem; z-index: 3; display: flex; gap: 6px; }
-    .carousel-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: background 0.2s, transform 0.2s; border: none; }
+    .carousel-dots { position: absolute; bottom: 1.5rem; right: 1.5rem; z-index: 3; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: 60%; }
+    .carousel-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.35); cursor: pointer; transition: background 0.2s, transform 0.2s; border: none; flex-shrink: 0; }
     .carousel-dot.active { background: #fff; transform: scale(1.3); }
 
     /* ── PÓSTERS 3:4 — grilla cartelera ── */
@@ -299,53 +296,17 @@
     .contact-label { color: rgba(237,233,227,0.4) !important; }
     .contact-value { color: rgba(237,233,227,0.88) !important; }
     .contact-icon { background: rgba(237,233,227,0.1) !important; }
-    .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-    .proj-card { background: var(--bg); cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); overflow: hidden; }
-    .proj-card:hover { background: var(--bg2); }
-    .proj-thumb { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), filter 0.3s; filter: grayscale(10%); }
-    .proj-card:hover .proj-thumb { transform: scale(1.04); filter: grayscale(0%); }
-    .proj-info { padding: 1.25rem 1.5rem 1.5rem; }
-    .proj-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; display: block; }
-    .proj-title { font-size: 18px; font-weight: 500; margin-bottom: 3px; }
-    .proj-client { font-size: 12px; color: var(--text3); margin-bottom: 10px; }
-    .proj-desc { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
-    .proj-play { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text3); letter-spacing: 0.04em; }
-
     /* ── GALERÍA FOTOS / ILUSTRACIONES ── */
     #galeria { background: var(--bg2); }
     #ilustraciones { background: var(--bg); }
-    .gallery-masonry { columns: 4 180px; column-gap: 0.6rem; }
-    .gal-item { break-inside: avoid; margin-bottom: 0.6rem; border-radius: var(--radius); overflow: hidden; cursor: pointer; border: 1px solid var(--border); box-shadow: var(--card-shadow); transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s, border-color 0.3s; display: block; }
-    .gal-item:hover { transform: scale(1.025) translateY(-2px); box-shadow: var(--card-hover); border-color: var(--accent); }
-    .gal-item img { width: 100%; height: auto; display: block; }
-    .gal-placeholder { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: var(--text3); font-size: 11px; background: var(--bg2); }
 
-    /* ── CORTOMETRAJES ── */
+    /* ── CORTOMETRAJES — showcase individual por corto ── */
     #cortometrajes { background: var(--bg2); }
-    .short-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
-    .short-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; position: relative; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); box-shadow: var(--card-shadow); }
-    .short-card:hover { transform: scale(1.03) translateY(-5px); box-shadow: var(--card-hover); border-color: var(--accent); }
-    .short-thumb { width: 100%; height: 190px; object-fit: cover; display: block; }
-    .short-thumb-placeholder { width: 100%; height: 190px; background: var(--bg2); display: flex; align-items: center; justify-content: center; color: var(--text3); }
-    .festival-badge { position: absolute; top: 10px; right: 10px; background: rgba(20,18,16,0.82); backdrop-filter: blur(6px); border-radius: 5px; padding: 4px 8px; display: flex; align-items: center; gap: 4px; font-size: 10px; color: #FFD700; font-weight: 500; letter-spacing: 0.05em; }
-    .festival-logos { position: absolute; bottom: 10px; left: 10px; display: flex; gap: 5px; }
+    .corto-showcase { min-height: 56vh; min-height: 56svh; }
+    .festival-badge { position: absolute; top: 1.25rem; right: 1.25rem; z-index: 2; background: rgba(20,18,16,0.82); backdrop-filter: blur(6px); border-radius: 5px; padding: 4px 8px; display: flex; align-items: center; gap: 4px; font-size: 10px; color: #FFD700; font-weight: 500; letter-spacing: 0.05em; }
+    .festival-logos { position: absolute; bottom: 1.25rem; left: 1.25rem; z-index: 2; display: flex; gap: 5px; }
     .festival-logo-img { height: 30px; width: auto; object-fit: contain; background: rgba(20,18,16,0.75); border-radius: 4px; padding: 3px 5px; }
     .festival-logo-placeholder { height: 30px; padding: 0 8px; background: rgba(20,18,16,0.75); border-radius: 4px; display: flex; align-items: center; font-size: 10px; color: rgba(255,255,255,0.6); }
-    .short-info { padding: 1rem 1.25rem 1.25rem; }
-    .short-title { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
-    .short-meta { font-size: 11px; color: var(--text3); margin-bottom: 6px; }
-    .short-desc { font-size: 12px; color: var(--text2); line-height: 1.55; }
-
-    /* ── REELS ── */
-    #reels { background: var(--bg); }
-    .reels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
-    .reel-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); box-shadow: var(--card-shadow); }
-    .reel-card:hover { transform: scale(1.04) translateY(-4px); box-shadow: var(--card-hover); border-color: var(--accent); }
-    .reel-thumb { width: 100%; aspect-ratio: 9/16; max-height: 260px; background: var(--bg2); display: flex; align-items: center; justify-content: center; color: var(--text3); overflow: hidden; }
-    .reel-thumb img, .reel-thumb video { width: 100%; height: 100%; object-fit: cover; }
-    .reel-info { padding: 0.75rem 1rem 0.9rem; }
-    .reel-title { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
-    .reel-meta { font-size: 11px; color: var(--text3); }
 
     /* ── BANNER MARCAS ── */
     #marcas { background: var(--bg2); padding: 2.5rem 0; overflow: hidden; border-bottom: 0.5px solid var(--border); }
@@ -445,22 +406,6 @@
     #lb-img-close { position: absolute; top: 1.25rem; right: 1.5rem; background: rgba(237,233,228,0.12); border: none; color: #fff; font-size: 20px; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     #lb-img-close:hover { background: rgba(237,233,228,0.22); }
 
-    /* ── PANEL TIPOGRAFÍA ── */
-    #font-panel { position: fixed; top: 0; right: 0; bottom: 0; z-index: 300; width: 290px; background: var(--bg); border-left: 0.5px solid var(--border2); box-shadow: -8px 0 40px rgba(0,0,0,0.12); padding: 4.5rem 1.25rem 2rem; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.22,1,0.36,1); overflow-y: auto; }
-    #font-panel.open { transform: translateX(0); }
-    #font-panel h3 { font-size: 12px; font-weight: 500; margin-bottom: 0.4rem; color: var(--text); }
-    #font-panel .panel-sub { font-size: 10px; color: var(--text3); margin-bottom: 1.25rem; line-height: 1.5; }
-    .font-preview-card { border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 1.1rem; margin-bottom: 0.6rem; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
-    .font-preview-card:hover { background: var(--bg2); }
-    .font-preview-card.active { border-color: var(--accent); background: var(--accent-light); }
-    .font-preview-name { font-size: 10px; color: var(--text3); margin-bottom: 3px; letter-spacing: 0.06em; text-transform: uppercase; }
-    .font-preview-display { font-size: 20px; line-height: 1.2; color: var(--text); margin-bottom: 2px; }
-    .font-preview-body { font-size: 11px; color: var(--text2); }
-    .font-panel-divider { border: none; border-top: 0.5px solid var(--border); margin: 1rem 0; }
-    #font-panel-close { position: absolute; top: 1rem; right: 1rem; width: 28px; height: 28px; border-radius: 50%; border: 0.5px solid var(--border2); background: transparent; cursor: pointer; color: var(--text2); font-size: 14px; display: flex; align-items: center; justify-content: center; }
-    #font-panel-backdrop { display: none; position: fixed; inset: 0; z-index: 299; background: rgba(0,0,0,0.2); }
-    #font-panel-backdrop.open { display: block; }
-
     /* ══════════════════════════════════════════
        RESPONSIVE — 3 breakpoints
        480px  = mobile pequeño (iPhone SE, etc.)
@@ -475,16 +420,17 @@
         padding: 0.85rem 1.5rem;
       }
       .nav-links { display: none; }
+      #btn-menu { display: flex; }
       .section-pad { padding: 4.5rem 1.5rem; }
       .hero-content { padding: 0 1.5rem 3rem 1.5rem; max-width: 100%; }
-      .hero-name { font-size: clamp(42px, 10vw, 72px); }
-      .hero-sub { font-size: 14px; max-width: 100%; }
-      .showcase-content { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 2.5rem 1.5rem 3rem; }
+      .hero-name { font-size: 14px; }
+      .showcase-section { flex-direction: column; min-height: auto; }
+      .showcase-text { flex: none; max-width: 100%; width: 100%; padding: 2.5rem 1.5rem; }
+      .showcase-media { flex: none; max-width: 100%; width: 100%; height: 52vh; height: 52svh; }
       .showcase-title { font-size: clamp(28px, 8vw, 52px); }
       .sobre-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .skills-grid { grid-template-columns: repeat(2, 1fr); }
       .stats { grid-template-columns: repeat(3, 1fr); }
-      .proj-grid { grid-template-columns: repeat(2, 1fr); }
       footer { padding: 1rem 1.5rem; }
     }
 
@@ -493,19 +439,16 @@
       nav { padding: 0.75rem 1.25rem; }
       .section-pad { padding: 3.5rem 1.25rem; }
       .hero-content { padding: 0 1.25rem 2.5rem 1.25rem; }
-      .hero-name { font-size: clamp(38px, 11vw, 56px); line-height: 1.0; }
-      .hero-sub { font-size: 13px; margin-bottom: 1.25rem; }
+      .hero-name { font-size: 14px; line-height: 1.4; }
       .hero-badges { gap: 6px; margin-bottom: 1.25rem; }
       .badge { font-size: 10px; padding: 3px 9px; }
       .hero-cta { gap: 8px; }
       .btn { font-size: 11px; padding: 8px 16px; }
-      .showcase-content { padding: 2rem 1.25rem 2.5rem; }
+      .showcase-text { padding: 2rem 1.25rem 2.5rem; }
       .showcase-title { font-size: clamp(26px, 9vw, 44px); }
       .showcase-sub { font-size: 13px; }
-      .showcase-btn { font-size: 11px; padding: 8px 16px; }
+      .showcase-media { height: 42vh; height: 42svh; }
       .section-title { font-size: clamp(24px, 7vw, 40px); margin-bottom: 1.75rem; }
-      .proj-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-      .proj-thumb { height: 160px; }
       .stats { grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
       .stat { padding: 0.85rem; }
       .stat-n { font-size: 26px; }
@@ -522,16 +465,12 @@
       .lang-toggle button { padding: 3px 9px; font-size: 10px; }
       .section-pad { padding: 3rem 1rem; }
       .hero-content { padding: 0 1rem 2.25rem 1rem; }
-      .hero-kicker { font-size: 10px; margin-bottom: 0.6rem; }
-      .hero-name { font-size: clamp(34px, 12vw, 48px); margin-bottom: 1rem; }
-      .hero-sub { font-size: 12px; line-height: 1.65; margin-bottom: 1rem; display: none; }
-      /* En mobile muy pequeño ocultamos el subtítulo para dar protagonismo al nombre */
+      .hero-kicker { font-size: 13px; margin-bottom: 0.5rem; }
+      .hero-name { font-size: 13px; margin-bottom: 1.25rem; }
       .hero-badges { margin-bottom: 1rem; }
       .badge { font-size: 10px; padding: 3px 8px; }
       .section-title { font-size: clamp(22px, 8vw, 34px); margin-bottom: 1.5rem; }
       .section-kicker { font-size: 10px; }
-      .proj-grid { grid-template-columns: 1fr; }
-      .proj-thumb { height: 200px; }
       .stats { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
       .stat { padding: 0.75rem 0.5rem; }
       .stat-n { font-size: 22px; }
@@ -542,14 +481,13 @@
       .exp-date { padding-top: 0; margin-bottom: 0.25rem; }
       .sobre-grid { gap: 2rem; }
       .about-text { font-size: 14px; }
-      .showcase-content { padding: 1.75rem 1rem 2.25rem; }
+      .showcase-text { padding: 1.75rem 1rem 2.25rem; }
+      .showcase-media { height: 34vh; height: 34svh; }
       .showcase-title { font-size: clamp(24px, 10vw, 36px); }
       .showcase-sub { display: none; }
       /* Ocultar subtítulo en showcases en mobile muy pequeño */
       .ticker { gap: 2rem; }
       .ticker-text { font-size: 13px; }
-      .short-grid { grid-template-columns: 1fr; }
-      .reels-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
       .contact-grid { grid-template-columns: 1fr; gap: 0.75rem; }
       .contact-item { padding: 0.75rem 1rem; }
       footer { padding: 0.85rem 1rem; }
@@ -573,8 +511,20 @@
       <button id="btn-es" class="active" onclick="setLang('es')">ES</button>
       <button id="btn-en" onclick="setLang('en')">EN</button>
     </div>
+    <button class="nav-icon-btn" id="btn-menu" onclick="toggleMobileMenu()" title="Menú">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
   </div>
 </nav>
+
+<!-- MENÚ MOBILE -->
+<div id="mobile-menu-backdrop" onclick="closeMobileMenu()"></div>
+<div id="mobile-menu">
+  <a onclick="navTo('proyectos'); closeMobileMenu()" data-es="Proyectos" data-en="Projects">Proyectos</a>
+  <a onclick="navTo('galeria'); closeMobileMenu()" data-es="Galería" data-en="Gallery">Galería</a>
+  <a onclick="navTo('sobre'); closeMobileMenu()" data-es="Sobre mí" data-en="About">Sobre mí</a>
+  <a onclick="navTo('contacto'); closeMobileMenu()" data-es="Contacto" data-en="Contact">Contacto</a>
+</div>
 
 <!-- ══════════════════════════════════════════════════════════
      HERO — showcase fullscreen, carrusel de media
@@ -629,16 +579,12 @@
 
   <!-- Texto — esquina inferior izquierda -->
   <div class="hero-content">
-    <p class="hero-kicker">Fausto, González</p>
-    <h1 class="hero-name reveal"><br>Diseño<em> Audiovusual</em></h1>
-    <p class="hero-sub reveal reveal-delay-1"
-      data-es="Productor y Técnico Audiovisual. Especializado en pre/pro/posproducción para cine, publicidad y streaming. Motion design, diseño sonoro e IA generativa."
-      data-en="Audiovisual Producer &amp; Technician. Specialized in pre/pro/post-production for film, advertising and streaming. Motion design, sound design and generative AI.">
-      Buenos Aires | Argentina.
+    <p class="hero-kicker">Fausto González</p>
+    <h1 class="hero-name reveal">Diseño Audiovisual</h1>
     <div class="hero-badges reveal reveal-delay-2">
       <!-- "Disponible full time" quitado. Agregá skills cuando quieras. -->
-      <span class="badge" data-es="Cine &amp; Streaming" data-en="Film &amp; Streaming">Cine</span>
-      <span class="badge" data-es="Diseño Sonoro" data-en="RRSS">Medios &amp; Entretenimineto</span>
+      <span class="badge" data-es="Cine &amp; Streaming" data-en="Film &amp; Streaming">Cine &amp; Streaming</span>
+      <span class="badge" data-es="Medios &amp; Entretenimiento" data-en="Media &amp; Entertainment">Medios &amp; Entretenimiento</span>
       <span class="badge">Motion Design</span>
       <span class="badge" data-es="IA Generativa" data-en="Generative AI">IA Generativa</span>
       <span class="badge" data-es="Diseño Sonoro" data-en="Sound Design">Diseño Sonoro</span>
@@ -654,8 +600,8 @@
 <!-- ══ PROYECTOS DESTACADOS ══ -->
 <section id="proyectos" class="section-pad">
   <div class="section-inner">
-    <p class="section-kicker reveal" data-es="Proyectos destacados" data-en="Featured projects">Escenografía | Ambientación </p>
-    <h2 class="section-title reveal" data-es="Series &amp; Streaming" data-en="Series &amp; Streaming">Cine · Series · Streaming</h2>
+    <p class="section-kicker reveal" data-es="Escenografía | Ambientación" data-en="Set Design | Set Dressing">Escenografía | Ambientación</p>
+    <h2 class="section-title reveal" data-es="Cine · Series · Streaming" data-en="Film · Series · Streaming">Cine · Series · Streaming</h2>
     <div class="poster-grid">
 
       <div class="poster-card reveal reveal-delay-1" onclick="openLightbox('nada')">
@@ -719,356 +665,243 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     MOTION GRAPHICS — showcase con carrusel de videos
+     MOTION GRAPHICS — showcase con carrusel de todas las piezas
 ══════════════════════════════════════════════════════════ -->
 <section id="motion" class="showcase-section">
-  <div class="showcase-bg">
+  <div class="showcase-text">
+    <p class="showcase-kicker reveal">Motion Graphics</p>
+    <h2 class="showcase-title reveal reveal-delay-1" data-es="Diseño<br>en movimiento" data-en="Design<br>in motion">Diseño<br>en movimiento</h2>
+    <p class="showcase-sub reveal reveal-delay-2"
+      data-es="Animaciones, identidades en movimiento y piezas audiovisuales creadas con las últimas herramientas de IA generativa y motion design."
+      data-en="Animations, motion identities and audiovisual pieces created with the latest generative AI and motion design tools.">
+      Animaciones, identidades en movimiento y piezas audiovisuales creadas con las últimas herramientas de IA generativa y motion design.
+    </p>
+  </div>
+  <div class="showcase-media">
+    <!-- Carrusel con TODAS las piezas de motion — click abre el lightbox con detalle -->
     <div class="showcase-carousel" id="motion-carousel">
-      <!-- Los videos se rotan automáticamente -->
-      <div class="carousel-slide active"><video src="CUMMINGS-FORMULA-SLV1.mp4" muted loop playsinline autoplay></video></div>
-      <div class="carousel-slide"><video src="PISTACHO3D.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide"><video src="SOAP_PARTICULASv4.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide"><video src="LogoGlith.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide"><video src="MODO-1-Trim.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide"><video src="GALDERMA.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide"><video src="Logo4.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide"><video src="GoogleCloud.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide active" onclick="openLightboxMotion('motion1')"><video src="CUMMINGS-FORMULA-SLV1.mp4" muted loop playsinline autoplay></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion2')"><video src="PISTACHO3D.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion3')"><video src="SOAP_PARTICULASv4.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion4')"><video src="LogoGlith.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion5')"><video src="MODO-1-Trim.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion6')"><video src="GALDERMA.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion7')"><video src="Logo4.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion8')"><video src="GoogleCloud.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion9')"><video src="INSIDER2026-3Dv2.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion10')"><video src="MANO-V2.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion11')"><video src="magnific_promptcreate-a-professional-3d-holographic-animati_wan_720p_1-1_30fps_1447.mp4" muted loop playsinline></video></div>
     </div>
-  </div>
-  <div class="showcase-overlay"></div>
-  <!-- Dots de navegación -->
-  <div class="carousel-dots" id="motion-dots"></div>
-  <div class="showcase-content">
-    <div class="showcase-meta">
-      <p class="showcase-kicker reveal">Motion Graphics</p>
-      <h2 class="showcase-title reveal reveal-delay-1" data-es="Diseño<br>en movimiento" data-en="Design<br>in motion"><br></h2>
-      <p class="showcase-sub reveal reveal-delay-2"
-        data-es="Animaciones, identidades en movimiento y piezas audiovisuales creadas con las últimas herramientas de IA generativa y motion design."
-        data-en="Animations, motion identities and audiovisual pieces created with the latest generative AI and motion design tools.">
-        Animaciones, identidades en movimiento y piezas audiovisuales creadas con las últimas herramientas de IA generativa y motion design.
-      </p>
-    </div>
-    <div class="showcase-action reveal reveal-delay-3">
-      <a class="showcase-btn" onclick="navTo('galeria-motion')">
-        <span data-es="Ver galería completa" data-en="View full gallery">Ver galería completa</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- Galería motion (expandible) -->
-<section id="galeria-motion" class="section-pad" style="background:var(--bg2); display:none;">
-  <div class="section-inner">
-    <p class="section-kicker">Motion Graphics · Galería</p>
-    <h2 class="section-title" data-es="Todas las piezas" data-en="All pieces">Todas las piezas</h2>
-    <div class="proj-grid">
-      <!-- AGREGAR MOTION: copiá un bloque .proj-card, usá una img de preview y onclick="openLightboxMotion('motionX')" -->
-      <div class="proj-card" onclick="openLightboxMotion('motion1')">
-        <div style="height:180px;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-          <video src="CUMMINGS-FORMULA-SLV1.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
-        </div>
-        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Cummings Formula</div><div class="proj-client">Fan Lab · 2025</div></div>
-      </div>
-      <div class="proj-card" onclick="openLightboxMotion('motion2')">
-        <div style="height:180px;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden;">
-          <video src="PISTACHO3D.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
-        </div>
-        <div class="proj-info"><span class="proj-tag">3D · Motion</span><div class="proj-title">Proyecto Motion 2</div><div class="proj-client">Cliente · 2025</div></div>
-      </div>
-      <div class="proj-card" onclick="openLightboxMotion('motion3')">
-        <div style="height:180px;background:#111;overflow:hidden;">
-          <video src="SOAP_PARTICULASv4.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
-        </div>
-        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Proyecto Motion 3</div><div class="proj-client">Cliente · 2025</div></div>
-      </div>
-      <div class="proj-card" onclick="openLightboxMotion('motion4')">
-        <div style="height:180px;background:#111;overflow:hidden;">
-          <video src="LogoGlith.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
-        </div>
-        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Logo Glitch</div><div class="proj-client">Cliente · 2025</div></div>
-      </div>
-      <div class="proj-card" onclick="openLightboxMotion('motion5')">
-        <div style="height:180px;background:#111;overflow:hidden;">
-          <video src="MODO-1-Trim.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
-        </div>
-        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Modo</div><div class="proj-client">Cliente · 2025</div></div>
-      </div>
-      <div class="proj-card" onclick="openLightboxMotion('motion6')">
-        <div style="height:180px;background:#111;overflow:hidden;">
-          <video src="GALDERMA.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
-        </div>
-        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Galderma</div><div class="proj-client">Fan Lab · 2025</div></div>
-      </div>
-      <div class="proj-card" onclick="openLightboxMotion('motion7')">
-        <div style="height:180px;background:#111;overflow:hidden;">
-          <video src="Logo4.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
-        </div>
-        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Logo 4</div><div class="proj-client">Cliente · 2025</div></div>
-      </div>
-      <div class="proj-card" onclick="openLightboxMotion('motion8')">
-        <div style="height:180px;background:#111;overflow:hidden;">
-          <video src="GoogleCloud.mp4" muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
-        </div>
-        <div class="proj-info"><span class="proj-tag">Motion</span><div class="proj-title">Google Cloud</div><div class="proj-client">Fan Lab · 2025</div></div>
-      </div>
-    </div>
-    <div style="text-align:center;margin-top:2rem;">
-      <button class="btn" onclick="document.getElementById('galeria-motion').style.display='none'; navTo('galeria')"
-        data-es="↑ Cerrar galería" data-en="↑ Close gallery">↑ Cerrar galería</button>
-    </div>
+    <div class="carousel-dots" id="motion-dots"></div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     FOTOGRAFÍA — showcase con imagen grande + galería
+     BRANDING
+══════════════════════════════════════════════════════════ -->
+<section id="branding" class="showcase-section">
+  <div class="showcase-text">
+    <p class="showcase-kicker reveal" data-es="Branding" data-en="Branding">Branding</p>
+    <h2 class="showcase-title reveal reveal-delay-1" data-es="Identidad<br>de marca" data-en="Brand<br>identity">Identidad<br>de marca</h2>
+    <p class="showcase-sub reveal reveal-delay-2"
+      data-es="Desarrollo de identidad visual y piezas de marca: logos en movimiento, sistemas gráficos y renders 3D para marcas y productos."
+      data-en="Visual identity development and brand pieces: motion logos, graphic systems and 3D renders for brands and products.">
+      Desarrollo de identidad visual y piezas de marca: logos en movimiento, sistemas gráficos y renders 3D para marcas y productos.
+    </p>
+  </div>
+  <div class="showcase-media">
+    <div class="showcase-carousel" id="branding-carousel">
+      <div class="carousel-slide active" onclick="openLightboxMotion('branding1')"><video src="FinalRender.mp4" muted loop playsinline autoplay></video></div>
+    </div>
+    <div class="carousel-dots" id="branding-dots"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     EVENTOS & ACTIVACIONES
+══════════════════════════════════════════════════════════ -->
+<section id="eventos" class="showcase-section">
+  <div class="showcase-text">
+    <p class="showcase-kicker reveal" data-es="Eventos &amp; Activaciones" data-en="Events &amp; Activations">Eventos &amp; Activaciones</p>
+    <h2 class="showcase-title reveal reveal-delay-1" data-es="Eventos<br>&amp; activaciones" data-en="Events<br>&amp; activations">Eventos<br>&amp; activaciones</h2>
+    <p class="showcase-sub reveal reveal-delay-2"
+      data-es="Cobertura técnica y producción audiovisual de expos, activaciones de marca y eventos en vivo."
+      data-en="Technical coverage and audiovisual production for expos, brand activations and live events.">
+      Cobertura técnica y producción audiovisual de expos, activaciones de marca y eventos en vivo.
+    </p>
+  </div>
+  <div class="showcase-media">
+    <div class="showcase-carousel" id="eventos-carousel">
+      <div class="carousel-slide active" onclick="openLightboxMotion('eventos1')"><video src="COMP-EVENTS.mp4" muted loop playsinline autoplay></video></div>
+    </div>
+    <div class="carousel-dots" id="eventos-dots"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     DISEÑO WEB Y ECOSISTEMA DIGITAL
+══════════════════════════════════════════════════════════ -->
+<section id="webdesign" class="showcase-section">
+  <div class="showcase-text">
+    <p class="showcase-kicker reveal" data-es="Diseño Web" data-en="Web Design">Diseño Web</p>
+    <h2 class="showcase-title reveal reveal-delay-1" data-es="Ecosistema<br>digital" data-en="Digital<br>ecosystem">Ecosistema<br>digital</h2>
+    <p class="showcase-sub reveal reveal-delay-2"
+      data-es="Diseño de sitios web y ecosistemas digitales integrados, pensados junto al resto de las piezas de marca."
+      data-en="Website design and integrated digital ecosystems, designed alongside the rest of the brand pieces.">
+      Diseño de sitios web y ecosistemas digitales integrados, pensados junto al resto de las piezas de marca.
+    </p>
+  </div>
+  <div class="showcase-media">
+    <div class="showcase-carousel" id="webdesign-carousel">
+      <div class="carousel-slide active" onclick="openLightboxMotion('webdesign1')"><video src="Render.mp4" muted loop playsinline autoplay></video></div>
+    </div>
+    <div class="carousel-dots" id="webdesign-dots"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     FOTOGRAFÍA — showcase con carrusel de todas las fotos
 ══════════════════════════════════════════════════════════ -->
 <section id="galeria" class="showcase-section">
-  <div class="showcase-bg">
-    <!-- La primera foto como fondo hero de la sección -->
-    <img src="foto1.jpg" alt="Fotografía">
+  <div class="showcase-text">
+    <p class="showcase-kicker reveal" data-es="Fotografía" data-en="Photography">Fotografía</p>
+    <h2 class="showcase-title reveal reveal-delay-1" data-es="Galería<br>fotográfica" data-en="Photo<br>gallery">Galería<br>fotográfica</h2>
+    <p class="showcase-sub reveal reveal-delay-2"
+      data-es="Registro documental, retratos y fotografía de producción."
+      data-en="Documentary photography, portraits and production stills.">
+      Registro documental, retratos y fotografía de producción.
+    </p>
   </div>
-  <div class="showcase-overlay"></div>
-  <div class="showcase-content">
-    <div class="showcase-meta">
-      <p class="showcase-kicker reveal" data-es="Fotografía" data-en="Photography">Fotografía</p>
-      <h2 class="showcase-title reveal reveal-delay-1" data-es="Galería<br>fotográfica" data-en="Photo<br>gallery"><br></h2>
-      <p class="showcase-sub reveal reveal-delay-2"
-        data-es="Registro documental, retratos y fotografía de producción."
-        data-en="Documentary photography, portraits and production stills.">
-        Registro documental, retratos y fotografía de producción.
-      </p>
+  <div class="showcase-media">
+    <!-- Carrusel con TODAS las fotos — click abre el lightbox con navegación entre todas -->
+    <div class="showcase-carousel" id="foto-carousel">
+      <div class="carousel-slide active" onclick="openSerieAt('fotos', 0)"><img src="foto1.jpg" alt="Fotografía 1"></div>
+      <div class="carousel-slide" onclick="openSerieAt('fotos', 1)"><img src="foto6.jpg" alt="Fotografía 2"></div>
+      <div class="carousel-slide" onclick="openSerieAt('fotos', 2)"><img src="foto9.jpg" alt="Fotografía 3"></div>
+      <div class="carousel-slide" onclick="openSerieAt('fotos', 3)"><img src="foto10.jpg" alt="Fotografía 4"></div>
+      <div class="carousel-slide" onclick="openSerieAt('fotos', 4)"><img src="foto11.jpg" alt="Fotografía 5"></div>
+      <div class="carousel-slide" onclick="openSerieAt('fotos', 5)"><img src="foto12.jpg" alt="Fotografía 6"></div>
+      <div class="carousel-slide" onclick="openSerieAt('fotos', 6)"><img src="foto13.jpg" alt="Fotografía 7"></div>
+      <div class="carousel-slide" onclick="openSerieAt('fotos', 7)"><img src="foto14.jpg" alt="Fotografía 8"></div>
+      <div class="carousel-slide" onclick="openSerieAt('fotos', 8)"><img src="foto15.jpg" alt="Fotografía 9"></div>
+      <div class="carousel-slide" onclick="openSerieAt('fotos', 9)"><img src="foto-16.png" alt="Fotografía 10"></div>
+      <div class="carousel-slide" onclick="openSerieAt('fotos', 10)"><img src="foto-17.jpg" alt="Fotografía 11"></div>
     </div>
-    <div class="showcase-action reveal reveal-delay-3">
-      <a class="showcase-btn" onclick="navTo('galeria-fotos')">
-        <span data-es="Ver galería completa" data-en="View full gallery">Ver galería completa</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- Galería de fotos (expandible) -->
-<section id="galeria-fotos" class="section-pad" style="background:var(--bg2); display:none;">
-  <div class="section-inner">
-    <p class="section-kicker" data-es="Fotografía · Galería" data-en="Photography · Gallery">Fotografía · Galería</p>
-
-    <!--
-    ══════════════════════════════════════════════════════════
-    SERIES FOTOGRÁFICAS — 6 grupos
-    Cada serie tiene su propio openImgLightbox al hacer click.
-    Para cambiar la imagen de portada de cada serie, editá src="...".
-    Para cambiar las fotos del lightbox, editá el array en el script.
-    ══════════════════════════════════════════════════════════
-    -->
-    <div class="proj-grid" style="margin-bottom:2.5rem;">
-
-      <!-- SERIE 1 -->
-      <div class="proj-card" onclick="openSerie(1)">
-        <img class="proj-thumb" src="foto1.jpg" alt="Serie 1">
-        <div class="proj-info">
-          <span class="proj-tag" data-es="Fotografía" data-en="Photography">Fotografía</span>
-          <div class="proj-title" data-es="Serie 1" data-en="Series 1">Serie 1</div>
-          <div class="proj-client" data-es="Reemplazá con el título y año" data-en="Replace with title and year">Reemplazá con el título y año</div>
-        </div>
-      </div>
-
-      <!-- SERIE 2 -->
-      <div class="proj-card" onclick="openSerie(2)">
-        <img class="proj-thumb" src="foto2.jpg" alt="Serie 2">
-        <div class="proj-info">
-          <span class="proj-tag" data-es="Fotografía" data-en="Photography">Fotografía</span>
-          <div class="proj-title" data-es="Serie 2" data-en="Series 2">Serie 2</div>
-          <div class="proj-client" data-es="Reemplazá con el título y año" data-en="Replace with title and year">Reemplazá con el título y año</div>
-        </div>
-      </div>
-
-      <!-- SERIE 3 -->
-      <div class="proj-card" onclick="openSerie(3)">
-        <img class="proj-thumb" src="foto3.jpg" alt="Serie 3">
-        <div class="proj-info">
-          <span class="proj-tag" data-es="Fotografía" data-en="Photography">Fotografía</span>
-          <div class="proj-title" data-es="Serie 3" data-en="Series 3">Serie 3</div>
-          <div class="proj-client" data-es="Reemplazá con el título y año" data-en="Replace with title and year">Reemplazá con el título y año</div>
-        </div>
-      </div>
-
-      <!-- SERIE 4 -->
-      <div class="proj-card" onclick="openSerie(4)">
-        <img class="proj-thumb" src="foto4.jpg" alt="Serie 4">
-        <div class="proj-info">
-          <span class="proj-tag" data-es="Fotografía" data-en="Photography">Fotografía</span>
-          <div class="proj-title" data-es="Serie 4" data-en="Series 4">Serie 4</div>
-          <div class="proj-client" data-es="Reemplazá con el título y año" data-en="Replace with title and year">Reemplazá con el título y año</div>
-        </div>
-      </div>
-
-      <!-- SERIE 5 -->
-      <div class="proj-card" onclick="openSerie(5)">
-        <img class="proj-thumb" src="foto8.jpg" alt="Serie 5">
-        <div class="proj-info">
-          <span class="proj-tag" data-es="Fotografía" data-en="Photography">Fotografía</span>
-          <div class="proj-title" data-es="Serie 5" data-en="Series 5">Serie 5</div>
-          <div class="proj-client" data-es="Reemplazá con el título y año" data-en="Replace with title and year">Reemplazá con el título y año</div>
-        </div>
-      </div>
-
-      <!-- SERIE 6 -->
-      <div class="proj-card" onclick="openSerie(6)">
-        <img class="proj-thumb" src="foto9.jpg" alt="Serie 6">
-        <div class="proj-info">
-          <span class="proj-tag" data-es="Fotografía" data-en="Photography">Fotografía</span>
-          <div class="proj-title" data-es="Serie 6" data-en="Series 6">Serie 6</div>
-          <div class="proj-client" data-es="Reemplazá con el título y año" data-en="Replace with title and year">Reemplazá con el título y año</div>
-        </div>
-      </div>
-
-    </div>
-    <div style="text-align:center;margin-top:2rem;">
-      <button class="btn" onclick="document.getElementById('galeria-fotos').style.display='none'; navTo('galeria')"
-        data-es="↑ Cerrar galería" data-en="↑ Close gallery">↑ Cerrar galería</button>
-    </div>
+    <div class="carousel-dots" id="foto-dots"></div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     ILUSTRACIONES — showcase + galería expandible
+     ILUSTRACIONES — showcase con carrusel de las piezas
 ══════════════════════════════════════════════════════════ -->
 <section id="ilustraciones" class="showcase-section">
-  <div class="showcase-bg">
-    <!-- Reemplazá foto5.jpg por tu mejor ilustración -->
-    <img src="foto5.jpg" alt="Ilustración">
+  <div class="showcase-text">
+    <p class="showcase-kicker reveal" data-es="Ilustración" data-en="Illustration">Ilustración</p>
+    <h2 class="showcase-title reveal reveal-delay-1" data-es="Ilustraciones<br>gráficas" data-en="Graphic<br>illustrations">Ilustraciones<br>gráficas</h2>
+    <p class="showcase-sub reveal reveal-delay-2"
+      data-es="Gráfica digital, diseño de personajes e identidades visuales."
+      data-en="Digital graphics, character design and visual identities.">
+      Gráfica digital, diseño de personajes e identidades visuales.
+    </p>
   </div>
-  <div class="showcase-overlay"></div>
-  <div class="showcase-content">
-    <div class="showcase-meta">
-      <p class="showcase-kicker reveal" data-es="Ilustración" data-en="Illustration">Ilustración</p>
-      <h2 class="showcase-title reveal reveal-delay-1" data-es="Ilustraciones<br>gráficas" data-en="Graphic<br>illustrations"><br></h2>
-      <p class="showcase-sub reveal reveal-delay-2"
-        data-es="Gráfica digital, diseño de personajes e identidades visuales."
-        data-en="Digital graphics, character design and visual identities.">
-        Gráfica digital, diseño de personajes e identidades visuales.
-      </p>
+  <div class="showcase-media">
+    <!-- Carrusel con las ilustraciones — sumá más carousel-slide cuando tengas más piezas -->
+    <div class="showcase-carousel" id="ilustracion-carousel">
+      <div class="carousel-slide active" onclick="openImgLightbox('foto5.jpg')"><img src="foto5.jpg" alt="Ilustración 1"></div>
+      <div class="carousel-slide" onclick="openImgLightbox('foto7.jpg')"><img src="foto7.jpg" alt="Ilustración 2"></div>
     </div>
-    <div class="showcase-action reveal reveal-delay-3">
-      <a class="showcase-btn" onclick="navTo('galeria-ilustraciones')">
-        <span data-es="Ver galería completa" data-en="View full gallery">Ver galería completa</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- Galería ilustraciones (expandible) -->
-<section id="galeria-ilustraciones" class="section-pad" style="background:var(--bg); display:none;">
-  <div class="section-inner">
-    <p class="section-kicker" data-es="Ilustración · Galería" data-en="Illustration · Gallery">Ilustración · Galería</p>
-    <div class="gallery-masonry">
-      <!-- AGREGAR ILUSTRACIÓN: mismo sistema que fotos -->
-      <div class="gal-item" onclick="openImgLightbox('foto5.jpg')"><img src="foto5.jpg" alt="Ilustración 1"></div>
-      <div class="gal-item" onclick="openImgLightbox('foto7.jpg')"><img src="foto7.jpg" alt="Ilustración 2"></div>
-      <!-- Placeholders -->
-      <div class="gal-item" style="aspect-ratio:1"><div class="gal-placeholder"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg><span style="font-size:11px;margin-top:4px">+ Ilustración</span></div></div>
-      <div class="gal-item" style="aspect-ratio:1"><div class="gal-placeholder"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg><span style="font-size:11px;margin-top:4px">+ Ilustración</span></div></div>
-    </div>
-    <div style="text-align:center;margin-top:2rem;">
-      <button class="btn" onclick="document.getElementById('galeria-ilustraciones').style.display='none'; navTo('ilustraciones')"
-        data-es="↑ Cerrar galería" data-en="↑ Close gallery">↑ Cerrar galería</button>
-    </div>
+    <div class="carousel-dots" id="ilustracion-dots"></div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     CORTOMETRAJES
+     CORTOMETRAJES — un showcase individual por corto
+     (mismo layout que el resto: texto a la izquierda, media a la derecha)
+     El label "Metrajes" va integrado en el kicker del primer showcase
+     (El Abrazo de la Marea) para no generar una sección de encabezado
+     separada — evita el doble bloque negro antes del primer corto.
+     CÓMO AGREGAR UN CORTOMETRAJE:
+     1. Copiá un bloque <section class="showcase-section corto-showcase">
+     2. Cambiá título/meta/descripción del panel de texto
+     3. Sumá los clips como .carousel-slide dentro de .showcase-carousel
+        (onclick="openLightboxMotion('miClipX')") + agregá la entrada
+        correspondiente en el objeto 'motions' del script
+     4. Llamá a initShowcaseCarousel('miId-carousel', 'miId-dots') al final del script
 ══════════════════════════════════════════════════════════ -->
-<section id="cortometrajes" class="section-pad">
-  <div class="section-inner">
-    <p class="section-kicker reveal" data-es="Cortometrajes" data-en="Short films">Metrajes</p>
-    <h2 class="section-title reveal" data-es="Selección oficial" data-en="Official selection">Selección oficial</h2>
-    <!--
-    CÓMO AGREGAR UN CORTOMETRAJE:
-    1. Portada: reemplazá .short-thumb-placeholder por <img class="short-thumb" src="portada.jpg" alt="Título">
-    2. YouTube ID: agregá en el objeto 'projects' del script (al final del archivo)
-    3. Logo festival: <img class="festival-logo-img" src="logo.png" alt="Festival"> dentro de .festival-logos
-    4. onclick="openLightbox('cortoX')" con el ID que definiste en el script
-    -->
-    <div class="short-grid">
-
-      <!-- CORTO 1 -->
-      <div class="short-card reveal reveal-delay-1" onclick="openLightbox('corto1')">
-        <img class="short-thumb" src="EADLM1.jpg" alt="El Abrazo de la Marea">
-        <div class="festival-badge">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Selección oficial
-        </div>
-        
-        <div class="short-info">
-          <div class="short-title">El Abrazo de la Marea</div>
-          <div class="short-meta" data-es="Año · Duración · Género" data-en="Year · Runtime · Genre">2023</div>
-          <div class="short-desc" data-es="Descripción del cortometraje y festivales en los que participó." data-en="Short film description. Festivals it was selected for.">Descripción del cortometraje y festivales en los que participó.</div>
-        </div>
-      </div>
-
-      <!-- CORTO 2 -->
-      <div class="short-card reveal reveal-delay-2" onclick="openLightbox('corto2')">
-        <img class="short-thumb" src="MINI-NH1.jpg" alt="Cortometraje 2">
-        <div class="festival-badge">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Selección oficial
-        </div>
-       
-        <div class="short-info">
-          <div class="short-title" data-es="Cortometraje 2" data-en="Short film 2">Nada Habita</div>
-          <div class="short-meta" data-es="Año · Duración · Género" data-en="Year · Runtime · Genre">2023</div>
-          <div class="short-desc" data-es="Descripción del cortometraje y festivales en los que participó." data-en="Short film description. Festivals it was selected for.">Descripción del cortometraje y festivales en los que participó.</div>
-        </div>
-      </div>
-
-      <!-- CORTO 3 -->
-      <div class="short-card reveal reveal-delay-3" onclick="openLightbox('corto3')">
-        <img class="short-thumb" src="MINI-PLV1.jpg" alt="Cortometraje 3">
-        <div class="short-info">
-          <div class="short-title" data-es="Cortometraje 3" data-en="Short film 3">Por La Ventana</div>
-          <div class="short-meta" data-es="Año · Duración · Género" data-en="Year · Runtime · Genre">2025</div>
-          <div class="short-desc" data-es="Descripción del cortometraje." data-en="Short film description.">Descripción del cortometraje.</div>
-        </div>
-      </div>
-
+<!-- CORTO 1 — El Abrazo de la Marea -->
+<section id="cortometrajes" class="showcase-section corto-showcase">
+  <div class="showcase-text">
+    <p class="showcase-kicker reveal" data-es="Metrajes · Selección oficial" data-en="Short films · Official selection">Metrajes · Selección oficial</p>
+    <h2 class="showcase-title reveal reveal-delay-1">El Abrazo<br>de la Marea</h2>
+    <p class="showcase-sub reveal reveal-delay-2" data-es="Año · Duración · Género" data-en="Year · Runtime · Genre">2023</p>
+    <p class="showcase-sub reveal reveal-delay-2"
+      data-es="Selección oficial en la sección de cortometrajes del Festival de la Mujer y el Cine, edición 2024."
+      data-en="Official selection in the short film section of the Woman and Film Festival, 2024 edition.">
+      Selección oficial en la sección de cortometrajes del Festival de la Mujer y el Cine, edición 2024.
+    </p>
+  </div>
+  <div class="showcase-media">
+    <div class="showcase-carousel" id="eadlm-carousel">
+      <div class="carousel-slide active" onclick="openLightboxMotion('eadlm1')"><video src="ElAbrazoDeLaMarea1.mp4" muted loop playsinline autoplay></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('eadlm2')"><video src="ElAbrazoDeLaMarea2.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('eadlm3')"><video src="ElAbrazoDeLaMarea3.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('eadlm4')"><video src="ElAbrazoDeLaMarea4.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('eadlm5')"><video src="ElAbrazoDeLaMarea5.mp4" muted loop playsinline></video></div>
     </div>
+    <div class="festival-badge">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Selección oficial
+    </div>
+    <div class="carousel-dots" id="eadlm-dots"></div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════
-     REELS & PIEZAS GRÁFICAS
-══════════════════════════════════════════════════════════ -->
-<section id="reels" class="section-pad">
-  <div class="section-inner">
-    <p class="section-kicker reveal" data-es="Reels &amp; Piezas" data-en="Reels &amp; Graphics">Reels &amp; Piezas</p>
-    <h2 class="section-title reveal" data-es="Contenido &amp; publicaciones" data-en="Content &amp; publications">Contenido &amp; publicaciones</h2>
-    <!--
-    CÓMO AGREGAR REELS:
-    · MP4 local: onclick="openLightboxMotion('reelX')" + agregá la entrada en el objeto 'motions' del script
-    · Imagen estática: onclick="openImgLightbox('pieza.jpg')"
-    · Preview: poné una <img> o <video> dentro de .reel-thumb
-    -->
-    <div class="reels-grid">
-      <div class="reel-card reveal reveal-delay-1" onclick="openLightboxMotion('reel1')">
-        <div class="reel-thumb"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:0.3"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
-        <div class="reel-info"><div class="reel-title" data-es="Reel 1" data-en="Reel 1">Reel 1</div><div class="reel-meta">Instagram · 2025</div></div>
-      </div>
-      <div class="reel-card reveal reveal-delay-2" onclick="openLightboxMotion('reel2')">
-        <div class="reel-thumb"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:0.3"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
-        <div class="reel-info"><div class="reel-title" data-es="Reel 2" data-en="Reel 2">Reel 2</div><div class="reel-meta">Instagram · 2025</div></div>
-      </div>
-      <div class="reel-card reveal reveal-delay-3" onclick="openLightboxMotion('reel3')">
-        <div class="reel-thumb"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:0.3"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
-        <div class="reel-info"><div class="reel-title" data-es="Pieza gráfica 1" data-en="Graphic piece 1">Pieza gráfica 1</div><div class="reel-meta">Penta mkt · 2025</div></div>
-      </div>
-      <div class="reel-card reveal reveal-delay-4" onclick="openLightboxMotion('reel4')">
-        <div class="reel-thumb"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" style="opacity:0.3"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
-        <div class="reel-info"><div class="reel-title" data-es="Pieza gráfica 2" data-en="Graphic piece 2">Pieza gráfica 2</div><div class="reel-meta">Fan Lab · 2025</div></div>
-      </div>
+<!-- CORTO 2 — Nada Habita -->
+<section class="showcase-section corto-showcase">
+  <div class="showcase-text">
+    <p class="showcase-kicker reveal" data-es="Cortometraje · Selección oficial" data-en="Short film · Official selection">Cortometraje · Selección oficial</p>
+    <h2 class="showcase-title reveal reveal-delay-1" data-es="Nada<br>Habita" data-en="Nada<br>Habita">Nada<br>Habita</h2>
+    <p class="showcase-sub reveal reveal-delay-2" data-es="Año · Duración · Género" data-en="Year · Runtime · Genre">2023</p>
+    <p class="showcase-sub reveal reveal-delay-2"
+      data-es="Selección oficial en la categoría Terror a Cielo Abierto del FIC UBA (Festival Internacional de Cine de la UBA), edición 2024."
+      data-en="Official selection in the Terror a Cielo Abierto category of FIC UBA (Universidad de Buenos Aires International Film Festival), 2024 edition.">
+      Selección oficial en la categoría Terror a Cielo Abierto del FIC UBA (Festival Internacional de Cine de la UBA), edición 2024.
+    </p>
+  </div>
+  <div class="showcase-media">
+    <div class="showcase-carousel" id="nh-carousel">
+      <div class="carousel-slide active" onclick="openLightboxMotion('nh2')"><video src="nh2.mp4" muted loop playsinline autoplay></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('nh3')"><video src="NH3.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('nh4')"><video src="NH4.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('nh5')"><video src="NH5.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('nh6')"><video src="NH6.mp4" muted loop playsinline></video></div>
     </div>
+    <div class="festival-badge">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Selección oficial
+    </div>
+    <div class="carousel-dots" id="nh-dots"></div>
+  </div>
+</section>
+
+<!-- CORTO 3 — Por La Ventana -->
+<section class="showcase-section corto-showcase">
+  <div class="showcase-text">
+    <p class="showcase-kicker reveal" data-es="Cortometraje" data-en="Short film">Cortometraje</p>
+    <h2 class="showcase-title reveal reveal-delay-1" data-es="Por La<br>Ventana" data-en="Por La<br>Ventana">Por La<br>Ventana</h2>
+    <p class="showcase-sub reveal reveal-delay-2" data-es="Año · Duración · Género" data-en="Year · Runtime · Genre">2025</p>
+    <p class="showcase-sub reveal reveal-delay-2"
+      data-es="Descripción del cortometraje."
+      data-en="Short film description.">
+      Descripción del cortometraje.
+    </p>
+  </div>
+  <div class="showcase-media">
+    <div class="showcase-carousel" id="plv-carousel">
+      <div class="carousel-slide active" onclick="openLightboxMotion('plv1')"><video src="PLV1.mp4" muted loop playsinline autoplay></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('plv2')"><video src="PLV2.mp4" muted loop playsinline></video></div>
+    </div>
+    <div class="carousel-dots" id="plv-dots"></div>
   </div>
 </section>
 
@@ -1173,8 +1006,12 @@
 
 <!-- ══════════════════════════════════════════════════════════
      HERRAMIENTAS — con soporte para logos de software
+     DESACTIVADA a pedido: portfolios de este estilo no suelen
+     necesitar una sección de herramientas aparte (ya está cubierto
+     en "Sobre mí"). Queda en el código, oculta con display:none.
+     Para reactivarla: borrá el style="display:none" de abajo.
 ══════════════════════════════════════════════════════════ -->
-<section id="herramientas" class="section-pad">
+<section id="herramientas" class="section-pad" style="display:none;">
   <div class="section-inner">
     <p class="section-kicker reveal" data-es="Herramientas" data-en="Tools">Herramientas</p>
     <!--
@@ -1238,8 +1075,11 @@
 
 <!-- ══════════════════════════════════════════════════════════
      EXPERIENCIA
+     DESACTIVADA a pedido: por el momento no queda como sección
+     de trayectoria profesional. Queda en el código, oculta con
+     display:none. Para reactivarla: borrá el style="display:none".
 ══════════════════════════════════════════════════════════ -->
-<section id="experiencia" class="section-pad">
+<section id="experiencia" class="section-pad" style="display:none;">
   <div class="section-inner">
     <p class="section-kicker reveal" data-es="Experiencia" data-en="Experience">Experiencia</p>
     <h2 class="section-title reveal" data-es="Trayectoria profesional" data-en="Professional background">Trayectoria profesional</h2>
@@ -1318,16 +1158,6 @@
   <img id="lb-img" src="" alt="" onclick="event.stopPropagation()">
 </div>
 
-<!-- PANEL TIPOGRAFÍA -->
-<div id="font-panel-backdrop" onclick="closeFontPanel()"></div>
-<div id="font-panel">
-  <button id="font-panel-close" onclick="closeFontPanel()">✕</button>
-  <h3>Tipografía</h3>
-  <p class="panel-sub">Click para ver el cambio en tiempo real. Se guarda automáticamente.</p>
-  <div id="font-options"></div>
-  <hr class="font-panel-divider">
-  <p class="panel-sub">Para fijarla: editá <code style="font-size:9px;background:var(--bg2);padding:1px 4px;border-radius:3px">--font-display</code> y <code style="font-size:9px;background:var(--bg2);padding:1px 4px;border-radius:3px">--font</code> en el <code style="font-size:9px;background:var(--bg2);padding:1px 4px;border-radius:3px">:root</code>.</p>
-</div>
 
 <script>
 /* ══ SCROLL REVEAL ══ */
@@ -1341,74 +1171,35 @@ window.addEventListener('scroll', function() {
   document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 60);
 });
 
-/* ══ NAV CLICK CON SLIDE LATERAL ══ */
-var sectionOrder = ['hero','proyectos','motion','galeria','ilustraciones','cortometrajes','reels','marcas','sobre','herramientas','experiencia','contacto'];
+/* ══ NAV CLICK — scroll suave nativo ══
+   Antes esto simulaba un "swipe" lateral (fade + translateX + salto instantáneo).
+   Quedaba artificial porque la página en realidad scrollea vertical, no de costado.
+   Ahora usa scroll suave nativo del navegador (scroll-behavior: smooth en <html>)
+   directo a la sección — fluido, sin saltos ni animaciones cruzadas raras.
+*/
 function navTo(targetId) {
   var el = document.getElementById(targetId);
   if (!el) return;
   // Si es una galería expandible, mostrarla primero
   if (el.style.display === 'none') el.style.display = 'block';
-  var curIdx = sectionOrder.indexOf(getCurrentSection());
-  var tgtIdx = sectionOrder.indexOf(targetId);
-  var dir = tgtIdx >= curIdx ? 'forward' : 'backward';
-  var visible = document.querySelectorAll('section');
-  visible.forEach(function(s) {
-    var r = s.getBoundingClientRect();
-    if (r.top < window.innerHeight && r.bottom > 0) {
-      s.style.transition = 'opacity 0.3s, transform 0.3s cubic-bezier(0.55,0,1,0.45)';
-      s.style.opacity = '0';
-      s.style.transform = dir === 'forward' ? 'translateX(-40px)' : 'translateX(40px)';
-    }
-  });
-  setTimeout(function() {
-    el.scrollIntoView({ behavior: 'instant' });
-    visible.forEach(function(s) { s.style.transition = ''; s.style.opacity = ''; s.style.transform = ''; });
-    el.style.opacity = '0';
-    el.style.transform = dir === 'forward' ? 'translateX(40px)' : 'translateX(-40px)';
-    el.style.transition = 'opacity 0.4s cubic-bezier(0,0.55,0.45,1), transform 0.4s cubic-bezier(0,0.55,0.45,1)';
-    requestAnimationFrame(function() { requestAnimationFrame(function() {
-      el.style.opacity = '1'; el.style.transform = 'translateX(0)';
-      el.querySelectorAll('.reveal:not(.visible)').forEach(function(r) { r.classList.add('visible'); });
-    }); });
-    setTimeout(function() { el.style.transition = ''; el.style.opacity = ''; el.style.transform = ''; }, 450);
-  }, 280);
-}
-function getCurrentSection() {
-  var best = sectionOrder[0], bestD = Infinity;
-  sectionOrder.forEach(function(id) {
-    var el = document.getElementById(id); if (!el) return;
-    var d = Math.abs(el.getBoundingClientRect().top);
-    if (d < bestD) { bestD = d; best = id; }
-  });
-  return best;
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Dispara el fade-up de los elementos .reveal de la sección de destino
+  el.querySelectorAll('.reveal:not(.visible)').forEach(function(r) { r.classList.add('visible'); });
 }
 
-/* ══ CAROUSEL MOTION SHOWCASE ══ */
-(function() {
-  var slides = document.querySelectorAll('#motion-carousel .carousel-slide');
-  var dots = document.getElementById('motion-dots');
-  var cur = 0;
-  if (!slides.length) return;
-  slides.forEach(function(_, i) {
-    var d = document.createElement('button');
-    d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-    d.onclick = function() { goTo(i); };
-    dots.appendChild(d);
-  });
-  function goTo(n) {
-    slides[cur].classList.remove('active');
-    var ov = slides[cur].querySelector('video'); if (ov) ov.pause();
-    dots.children[cur].classList.remove('active');
-    cur = n % slides.length;
-    slides[cur].classList.add('active');
-    var nv = slides[cur].querySelector('video');
-    if (nv) { nv.currentTime = 0; nv.play().catch(function(){}); }
-    dots.children[cur].classList.add('active');
-  }
-  var firstV = slides[0].querySelector('video');
-  if (firstV) firstV.play().catch(function(){});
-  setInterval(function() { goTo(cur + 1); }, 5000);
-})();
+
+/* ══ MENÚ MOBILE ══ */
+function toggleMobileMenu() {
+  var m = document.getElementById('mobile-menu'), b = document.getElementById('mobile-menu-backdrop');
+  var o = m.classList.toggle('open');
+  b.classList.toggle('open', o);
+  document.body.style.overflow = o ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('mobile-menu-backdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 /* ══ IDIOMA ══ */
 function setLang(lang) {
@@ -1419,24 +1210,12 @@ function setLang(lang) {
   document.title = lang === 'en' ? 'Fausto González · Audiovisual Producer' : 'Fausto González · Productor Audiovisual';
 }
 
-
-/* ══ WARM FILTER ══ */
-function toggleWarm() {
-  var w = document.body.classList.toggle('warm');
-  var b = document.getElementById('btn-warm');
-  if (b) b.classList.toggle('active', w);
-  localStorage.setItem('fg-warm', w ? '1' : '0');
-}
-
 /* ══ LIGHTBOX YOUTUBE ══ */
 var projects = {
   nada:    { title:'Nada',         client:'Disney+ · 2022',                    yt:'mPskz8uhIvI',  desc_es:'Serie original de Disney+. Mi rol: Técnico Escenográfico.', desc_en:'Disney+ original series. My role: Set Technician.' },
   chueco:  { title:'C.H.U.E.C.O', client:'Non Stop TV · Disney+ · 2023',       yt:'uPxF6Ngz-14', desc_es:'Serie de Disney+. Mi rol: Técnico Escenográfico.', desc_en:'Disney+ series. My role: Set Technician.' },
   senna:   { title:'Senna',        client:'Gullane Pictures · Netflix · 2023–24', yt:'dfto0hTKdzg', desc_es:'Miniserie biográfica de Ayrton Senna. Mi rol: Técnico Escenográfico.', desc_en:'Biographical miniseries about Ayrton Senna. My role: Set Technician.' },
-  soyluna: { title:'Soy Luna',     client:'Non Stop TV · Disney+ · 2025',       yt:'CDSVLe0TBlQ', desc_es:'Producción Disney+. Mi rol: Técnico Escenográfico.', desc_en:'Disney+ production. My role: Set Technician.' },
-  corto1:  { title:'Cortometraje 1', client:'Año · Festival', yt:'REEMPLAZAR_ID', desc_es:'Descripción del cortometraje.', desc_en:'Short film description.' },
-  corto2:  { title:'Cortometraje 2', client:'Año · Festival', yt:'REEMPLAZAR_ID', desc_es:'Descripción del cortometraje.', desc_en:'Short film description.' },
-  corto3:  { title:'Cortometraje 3', client:'Año',            yt:'REEMPLAZAR_ID', desc_es:'Descripción del cortometraje.', desc_en:'Short film description.' }
+  soyluna: { title:'Soy Luna',     client:'Non Stop TV · Disney+ · 2025',       yt:'CDSVLe0TBlQ', desc_es:'Producción Disney+. Mi rol: Técnico Escenográfico.', desc_en:'Disney+ production. My role: Set Technician.' }
 };
 function openLightbox(id) {
   var p = projects[id]; if (!p) return;
@@ -1457,14 +1236,28 @@ var motions = {
   motion2: { title:'Proyecto Motion 2', client:'Cliente · 2025',  src:'PISTACHO3D.mp4',            desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
   motion3: { title:'Proyecto Motion 3', client:'Cliente · 2025',  src:'SOAP_PARTICULASv4.mp4',     desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
   motion4: { title:'Logo Glitch',       client:'Cliente · 2025',  src:'LogoGlith.mp4',             desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
-  motion5: { title:'Modo',              client:'Cliente · 2025',  src:'MODO-1-Trim',                desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  motion5: { title:'Modo',              client:'Cliente · 2025',  src:'MODO-1-Trim.mp4',            desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
   motion6: { title:'Galderma',          client:'Fan Lab · 2025',  src:'GALDERMA.mp4',              desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
   motion7: { title:'Logo 4',            client:'Cliente · 2025',  src:'Logo4.mp4',                 desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
   motion8: { title:'Google Cloud',      client:'Fan Lab · 2025',  src:'GoogleCloud.mp4',           desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
-  reel1:   { title:'Reel 1',            client:'Instagram · 2025',src:'reel1.mp4',                 desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
-  reel2:   { title:'Reel 2',            client:'Instagram · 2025',src:'reel2.mp4',                 desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
-  reel3:   { title:'Pieza gráfica 1',   client:'Penta mkt · 2025',src:'reel3.mp4',                 desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
-  reel4:   { title:'Pieza gráfica 2',   client:'Fan Lab · 2025',  src:'reel4.mp4',                 desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' }
+  motion9: { title:'Insider 2026',      client:'Cliente · 2025',  src:'INSIDER2026-3Dv2.mp4',      desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  motion10:{ title:'Mano',              client:'Cliente · 2025',  src:'MANO-V2.mp4',               desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  motion11:{ title:'Magnific',          client:'Cliente · 2025',  src:'magnific_promptcreate-a-professional-3d-holographic-animati_wan_720p_1-1_30fps_1447.mp4', desc_es:'Pieza generada con IA (Magnific / holográfica 3D).', desc_en:'AI-generated piece (Magnific / 3D holographic).' },
+  branding1:  { title:'Final Render',   client:'Cliente · 2025',  src:'FinalRender.mp4',           desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  eventos1:   { title:'Eventos & Activaciones', client:'Cliente · 2025', src:'COMP-EVENTS.mp4',     desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  webdesign1: { title:'Ecosistema Digital', client:'Cliente · 2025', src:'Render.mp4',              desc_es:'Reemplazá con tu descripción.', desc_en:'Replace with your description.' },
+  eadlm1: { title:'El Abrazo de la Marea', client:'Clip 1 · 2023', src:'ElAbrazoDeLaMarea1.mp4', desc_es:'Cortometraje — selección oficial en festivales.', desc_en:'Short film — official festival selection.' },
+  eadlm2: { title:'El Abrazo de la Marea', client:'Clip 2 · 2023', src:'ElAbrazoDeLaMarea2.mp4', desc_es:'Cortometraje — selección oficial en festivales.', desc_en:'Short film — official festival selection.' },
+  eadlm3: { title:'El Abrazo de la Marea', client:'Clip 3 · 2023', src:'ElAbrazoDeLaMarea3.mp4', desc_es:'Cortometraje — selección oficial en festivales.', desc_en:'Short film — official festival selection.' },
+  eadlm4: { title:'El Abrazo de la Marea', client:'Clip 4 · 2023', src:'ElAbrazoDeLaMarea4.mp4', desc_es:'Cortometraje — selección oficial en festivales.', desc_en:'Short film — official festival selection.' },
+  eadlm5: { title:'El Abrazo de la Marea', client:'Clip 5 · 2023', src:'ElAbrazoDeLaMarea5.mp4', desc_es:'Cortometraje — selección oficial en festivales.', desc_en:'Short film — official festival selection.' },
+  nh2: { title:'Nada Habita', client:'Clip 2 · 2023', src:'nh2.mp4', desc_es:'Cortometraje — selección oficial en festivales.', desc_en:'Short film — official festival selection.' },
+  nh3: { title:'Nada Habita', client:'Clip 3 · 2023', src:'NH3.mp4', desc_es:'Cortometraje — selección oficial en festivales.', desc_en:'Short film — official festival selection.' },
+  nh4: { title:'Nada Habita', client:'Clip 4 · 2023', src:'NH4.mp4', desc_es:'Cortometraje — selección oficial en festivales.', desc_en:'Short film — official festival selection.' },
+  nh5: { title:'Nada Habita', client:'Clip 5 · 2023', src:'NH5.mp4', desc_es:'Cortometraje — selección oficial en festivales.', desc_en:'Short film — official festival selection.' },
+  nh6: { title:'Nada Habita', client:'Clip 6 · 2023', src:'NH6.mp4', desc_es:'Cortometraje — selección oficial en festivales.', desc_en:'Short film — official festival selection.' },
+  plv1: { title:'Por La Ventana', client:'Clip 1 · 2025', src:'PLV1.mp4', desc_es:'Descripción del cortometraje.', desc_en:'Short film description.' },
+  plv2: { title:'Por La Ventana', client:'Clip 2 · 2025', src:'PLV2.mp4', desc_es:'Descripción del cortometraje.', desc_en:'Short film description.' }
 };
 function openLightboxMotion(id) {
   var m = motions[id]; if (!m) return;
@@ -1486,191 +1279,11 @@ function closeLightboxMotion() {
 }
 function closeLightboxMotionOutside(e) { if (e.target === document.getElementById('lightbox-motion')) closeLightboxMotion(); }
 
-/* ══ LIGHTBOX IMAGEN ══ */
-function openImgLightbox(src) {
-  document.getElementById('lb-img').src = src;
-  document.getElementById('lb-img-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeImgLightbox() {
-  document.getElementById('lb-img-overlay').classList.remove('open');
-  document.getElementById('lb-img').src = '';
-  document.body.style.overflow = '';
-}
-
-/* ══ LIGHTBOX SERIES FOTOGRÁFICAS ══
-   6 series. Cada una tiene su array de fotos.
-   openSerie(n) abre la primera foto de esa serie y permite navegar.
-
-   CÓMO PERSONALIZAR:
-   · Cambiá el title de cada serie por el nombre real.
-   · Cambiá el array photos[] con los nombres de tus archivos.
-   · Podés tener tantas fotos como quieras en cada serie.
-*/
-var series = {
-  1: { title: 'Serie 1', photos: ['foto1.jpg', 'foto2.jpg', 'foto3.jpg'] },
-  2: { title: 'Serie 2', photos: ['foto4.jpg', 'foto8.jpg', 'foto9.jpg'] },
-  3: { title: 'Serie 3', photos: ['foto10.jpg', 'foto11.jpg', 'foto12.jpg'] },
-  4: { title: 'Serie 4', photos: ['foto13.jpg', 'foto14.jpg', 'foto15.jpg'] },
-  5: { title: 'Serie 5', photos: ['foto-16.png', 'foto-17.jpg'] },
-  6: { title: 'Serie 6', photos: ['foto1.jpg'] } /* ← reemplazá con tus fotos reales */
-};
-
-var serieActive = null;
-var serieIndex = 0;
-
-function openSerie(n) {
-  var s = series[n]; if (!s || !s.photos.length) return;
-  serieActive = n; serieIndex = 0;
-  showSeriePhoto();
-  document.getElementById('lb-img-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  /* Mostrar/ocultar botones de navegación */
-  updateSerieNav();
-}
-
-function showSeriePhoto() {
-  var s = series[serieActive];
-  document.getElementById('lb-img').src = s.photos[serieIndex];
-  document.getElementById('lb-serie-counter').textContent = (serieIndex + 1) + ' / ' + s.photos.length;
-  document.getElementById('lb-serie-title').textContent = s.title;
-}
-
-function serieNext() {
-  var s = series[serieActive]; if (!s) return;
-  if (serieIndex < s.photos.length - 1) { serieIndex++; showSeriePhoto(); updateSerieNav(); }
-}
-
-function seriePrev() {
-  if (serieIndex > 0) { serieIndex--; showSeriePhoto(); updateSerieNav(); }
-}
-
-function updateSerieNav() {
-  var s = series[serieActive];
-  var hasMultiple = s && s.photos.length > 1;
-  var nav = document.getElementById('lb-serie-nav');
-  if (nav) nav.style.display = hasMultiple ? 'flex' : 'none';
-  var btnPrev = document.getElementById('lb-serie-prev');
-  var btnNext = document.getElementById('lb-serie-next');
-  if (btnPrev) btnPrev.style.opacity = serieIndex === 0 ? '0.3' : '1';
-  if (btnNext) btnNext.style.opacity = serieIndex === series[serieActive].photos.length - 1 ? '0.3' : '1';
-}
-
-/* ══ AUTOPLAY GALERÍA MOTION ══
-   Problema: la sección empieza con display:none, así que
-   IntersectionObserver no la detecta. Solución: usar MutationObserver
-   para detectar cuando se vuelve visible y entonces sí conectar el observer.
-*/
-var motionGalleryObserver = new IntersectionObserver(function(entries) {
-  if (window.innerWidth <= 768) return;
-  entries.forEach(function(entry) {
-    var video = entry.target.querySelector('video');
-    if (!video) return;
-    if (entry.isIntersecting) { video.play().catch(function(){}); }
-    else { video.pause(); }
-  });
-}, { threshold: 0.15 });
-
-function observeMotionGallery() {
-  document.querySelectorAll('#galeria-motion .proj-card').forEach(function(card) {
-    motionGalleryObserver.observe(card);
-  });
-}
-
-/* MutationObserver: detecta cuando galeria-motion pasa de display:none a visible */
-var gmSection = document.getElementById('galeria-motion');
-if (gmSection) {
-  new MutationObserver(function(mutations) {
-    mutations.forEach(function(m) {
-      if (m.attributeName === 'style') {
-        var visible = gmSection.style.display !== 'none' && gmSection.style.display !== '';
-        if (visible) setTimeout(observeMotionGallery, 200);
-      }
-    });
-  }).observe(gmSection, { attributes: true });
-}
-
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape')     { closeLightbox(); closeLightboxMotion(); closeImgLightbox(); closeFontPanel(); }
+  if (e.key === 'Escape')     { closeLightbox(); closeLightboxMotion(); closeImgLightbox(); closeMobileMenu(); }
   if (e.key === 'ArrowRight') serieNext();
   if (e.key === 'ArrowLeft')  seriePrev();
 });
-
-/* ══ PANEL TIPOGRAFÍA ══
-   Solo cambia --font-display (nombre, títulos de sección).
-*/
-var fontOptions = [
-  {
-    id:'dm',
-    name:'DM Serif Display',
-    display:"'DM Serif Display', Georgia, serif",
-    sample:'Fausto González'
-  },
-  {
-    id:'playfair',
-    name:'Playfair Display',
-    display:"'Playfair Display', Georgia, serif",
-    sample:'Fausto González'
-  },
-  {
-    id:'cormorant',
-    name:'Cormorant Garamond',
-    display:"'Cormorant Garamond', Georgia, serif",
-    sample:'Fausto González'
-  },
-  {
-    id:'syne',
-    name:'Syne',
-    display:"'Syne', system-ui, sans-serif",
-    sample:'Fausto González'
-  },
-  {
-    id:'bebas',
-    name:'Bebas Neue',
-    display:"'Bebas Neue', Impact, sans-serif",
-    sample:'Fausto González'
-  },
-  {
-    id:'unbounded',
-    name:'Unbounded',
-    display:"'Unbounded', system-ui, sans-serif",
-    sample:'Fausto González'
-  }
-];
-var activeFont = localStorage.getItem('fg-font') || 'dm';
-function buildFontPanel() {
-  var c = document.getElementById('font-options'); if (!c) return;
-  c.innerHTML = '';
-  fontOptions.forEach(function(f) {
-    var d = document.createElement('div');
-    d.className = 'font-preview-card' + (f.id === activeFont ? ' active' : '');
-    d.innerHTML =
-      '<div class="font-preview-name">' + f.name + '</div>' +
-      '<div class="font-preview-display" style="font-family:' + f.display + '">' + f.sample + '</div>' +
-      '<div class="font-preview-body" style="font-family:\'DM Sans\',system-ui,sans-serif;font-size:10px;color:var(--text3);margin-top:3px">Títulos y nombre · el resto no cambia</div>';
-    d.onclick = function() { applyFont(f.id); };
-    c.appendChild(d);
-  });
-}
-function applyFont(id) {
-  var f = fontOptions.find(function(x){ return x.id === id; }); if (!f) return;
-  activeFont = id;
-  /* Solo cambia la tipografía de display — no toca el cuerpo ni el nav */
-  document.documentElement.style.setProperty('--font-display', f.display);
-  localStorage.setItem('fg-font', id);
-  buildFontPanel();
-}
-function toggleFontPanel() {
-  var p = document.getElementById('font-panel'), b = document.getElementById('font-panel-backdrop');
-  var o = p.classList.toggle('open');
-  b.classList.toggle('open', o);
-  document.getElementById('btn-font').classList.toggle('active', o);
-}
-function closeFontPanel() {
-  document.getElementById('font-panel').classList.remove('open');
-  document.getElementById('font-panel-backdrop').classList.remove('open');
-  document.getElementById('btn-font').classList.remove('active');
-}
 
 /* ══ LIGHTBOX IMAGEN ══ */
 function openImgLightbox(src) {
@@ -1690,161 +1303,28 @@ function closeImgLightbox() {
   document.body.style.overflow = '';
 }
 
-/* ══ SERIES FOTOGRÁFICAS ══
-   6 grupos de fotos. Cada uno tiene su propio lightbox con navegación.
-   Para personalizar: cambiá el title y el array photos[] de cada serie.
-   Podés agregar o quitar fotos del array libremente.
+/* ══ GALERÍA FOTOGRÁFICA ══
+   Un solo grupo con todas las fotos sueltas. Click en cualquier foto
+   abre el lightbox en esa posición y permite navegar con flechas/teclado
+   por el resto de la galería.
+   Para agregar/quitar fotos: editá el array photos[] de abajo y
+   los .carousel-slide del carrusel dentro de la sección #galeria.
 */
 var series = {
-  1: { title: 'Serie 1', photos: ['foto1.jpg', 'foto2.jpg', 'foto3.jpg'] },
-  2: { title: 'Serie 2', photos: ['foto4.jpg', 'foto8.jpg', 'foto9.jpg'] },
-  3: { title: 'Serie 3', photos: ['foto10.jpg', 'foto11.jpg', 'foto12.jpg'] },
-  4: { title: 'Serie 4', photos: ['foto13.jpg', 'foto14.jpg', 'foto15.jpg'] },
-  5: { title: 'Serie 5', photos: ['foto-16.png', 'foto-17.jpg'] },
-  6: { title: 'Serie 6', photos: ['foto1.jpg'] } /* reemplazá con tus fotos reales */
+  fotos: { title: 'Fotografía', photos: ['foto1.jpg', 'foto6.jpg', 'foto9.jpg', 'foto10.jpg', 'foto11.jpg', 'foto12.jpg', 'foto13.jpg', 'foto14.jpg', 'foto15.jpg', 'foto-16.png', 'foto-17.jpg'] }
 };
 var serieActive = null;
 var serieIndex  = 0;
 
-function openSerie(n) {
-  var s = series[n]; if (!s || !s.photos.length) return;
-  serieActive = n; serieIndex = 0;
+function openSerie(key) {
+  openSerieAt(key, 0);
+}
+function openSerieAt(key, idx) {
+  var s = series[key]; if (!s || !s.photos.length) return;
+  serieActive = key; serieIndex = idx || 0;
   _showSeriePhoto();
   document.getElementById('lb-img-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 function _showSeriePhoto() {
-  var s = series[serieActive];
-  document.getElementById('lb-img').src = s.photos[serieIndex];
-  document.getElementById('lb-serie-title').textContent   = s.title;
-  document.getElementById('lb-serie-counter').textContent = (serieIndex + 1) + ' / ' + s.photos.length;
-  var multiple = s.photos.length > 1;
-  var prev = document.getElementById('lb-serie-prev');
-  var next = document.getElementById('lb-serie-next');
-  prev.style.display = multiple ? 'flex' : 'none';
-  next.style.display = multiple ? 'flex' : 'none';
-  prev.style.opacity = serieIndex === 0 ? '0.3' : '1';
-  next.style.opacity = serieIndex === s.photos.length - 1 ? '0.3' : '1';
-}
-function serieNext() {
-  if (!serieActive) return;
-  var s = series[serieActive];
-  if (serieIndex < s.photos.length - 1) { serieIndex++; _showSeriePhoto(); }
-}
-function seriePrev() {
-  if (!serieActive) return;
-  if (serieIndex > 0) { serieIndex--; _showSeriePhoto(); }
-}
-
-/* ══ AUTOPLAY GALERÍA MOTION ══
-   La sección empieza con display:none — IntersectionObserver no la detecta.
-   MutationObserver resuelve esto: cuando la sección se vuelve visible,
-   conecta el IntersectionObserver a cada card.
-*/
-var motionGalleryObserver = new IntersectionObserver(function(entries) {
-  entries.forEach(function(entry) {
-    var video = entry.target.querySelector('video');
-    if (!video) return;
-    if (entry.isIntersecting) { video.play().catch(function(){}); }
-    else { video.pause(); }
-  });
-}, { threshold: 0.15 });
-
-function observeMotionGallery() {
-  document.querySelectorAll('#galeria-motion .proj-card').forEach(function(card) {
-    motionGalleryObserver.observe(card);
-  });
-}
-
-var gmSection = document.getElementById('galeria-motion');
-if (gmSection) {
-  new MutationObserver(function(mutations) {
-    mutations.forEach(function(m) {
-      if (m.attributeName === 'style') {
-        var visible = gmSection.style.display !== 'none' && gmSection.style.display !== '';
-        if (visible) setTimeout(observeMotionGallery, 200);
-      }
-    });
-  }).observe(gmSection, { attributes: true });
-}
-
-/* ══ CAROUSEL HERO ══
-   Funciona en desktop Y mobile.
-   En mobile usa preload="metadata" así no bloquea la carga inicial
-   pero los videos sí se reproducen cuando toca.
-*/
-(function() {
-  var slides = document.querySelectorAll('#hero-carousel .hero-slide');
-  var dotsEl = document.getElementById('hero-dots');
-  if (!slides.length || !dotsEl) return;
-  var cur = 0;
-
-  /* En mobile: cambiar preload="none" a "metadata" para que se vean */
-  if (window.innerWidth <= 768) {
-    slides.forEach(function(slide) {
-      var v = slide.querySelector('video');
-      if (v) {
-        v.setAttribute('preload', 'metadata');
-        /* Restaurar src si fue removido por versiones anteriores */
-        if (!v.getAttribute('src') && v.dataset.src) {
-          v.setAttribute('src', v.dataset.src);
-          v.load();
-        }
-      }
-    });
-  }
-
-  slides.forEach(function(_, i) {
-    var d = document.createElement('button');
-    d.className = 'hero-dot' + (i === 0 ? ' active' : '');
-    d.onclick = function() { goTo(i); };
-    dotsEl.appendChild(d);
-  });
-
-  function goTo(n) {
-    slides[cur].classList.remove('active');
-    var oldV = slides[cur].querySelector('video');
-    if (oldV) oldV.pause();
-    dotsEl.children[cur].classList.remove('active');
-    cur = n % slides.length;
-    slides[cur].classList.add('active');
-    var newV = slides[cur].querySelector('video');
-    if (newV) { newV.currentTime = 0; newV.play().catch(function(){}); }
-    dotsEl.children[cur].classList.add('active');
-  }
-
-  var fv = slides[0].querySelector('video');
-  if (fv) fv.play().catch(function(){});
-
-  setInterval(function() { goTo(cur + 1); }, 5000);
-})();
-
-/* ══ TEMA CLARO ══ */
-function toggleLight() {
-  var isLight = document.body.classList.toggle('light');
-  var btn = document.getElementById('btn-dark');
-  if (btn) btn.classList.toggle('active', isLight);
-  localStorage.setItem('fg-light', isLight ? '1' : '0');
-}
-
-/* ══ RESTAURAR PREFERENCIAS ══ */
-(function() {
-  if (localStorage.getItem('fg-light') === '1') {
-    document.body.classList.add('light');
-    var b = document.getElementById('btn-dark');
-    if (b) b.classList.add('active');
-  }
-  if (localStorage.getItem('fg-warm') === '1') document.body.classList.add('warm');
-})();
-</script>
-
-<!-- Script del font panel DESPUÉS del div#font-options -->
-<script>
-(function() {
-  var sf = localStorage.getItem('fg-font');
-  if (sf && sf !== 'dm') applyFont(sf);
-  buildFontPanel();
-})();
-</script>
-</body>
-</html>
+  va
