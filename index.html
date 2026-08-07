@@ -580,7 +580,8 @@
   <!-- Texto — esquina inferior izquierda -->
   <div class="hero-content">
     <p class="hero-kicker">Fausto González</p>
-    <h1 class="hero-name reveal">Diseño Audiovisual</h1>
+    <p class="hero-kicker"></p>
+    <h1 class="hero-name reveal"></h1>
     <div class="hero-badges reveal reveal-delay-2">
       <!-- "Disponible full time" quitado. Agregá skills cuando quieras. -->
       <span class="badge" data-es="Cine &amp; Streaming" data-en="Film &amp; Streaming">Cine &amp; Streaming</span>
@@ -670,27 +671,27 @@
 <section id="motion" class="showcase-section">
   <div class="showcase-text">
     <p class="showcase-kicker reveal">Motion Graphics</p>
-    <h2 class="showcase-title reveal reveal-delay-1" data-es="Diseño<br>en movimiento" data-en="Design<br>in motion">Diseño<br>en movimiento</h2>
+    <h2 class="showcase-title reveal reveal-delay-1" data-es="Diseño<br>en movimiento" data-en="Design<br>in motion">Diseño<br>& Animación</h2>
     <p class="showcase-sub reveal reveal-delay-2"
       data-es="Animaciones, identidades en movimiento y piezas audiovisuales creadas con las últimas herramientas de IA generativa y motion design."
       data-en="Animations, motion identities and audiovisual pieces created with the latest generative AI and motion design tools.">
-      Animaciones, identidades en movimiento y piezas audiovisuales creadas con las últimas herramientas de IA generativa y motion design.
+      Identidades en movimiento y piezas audiovisuales | Motion y 3D design.
     </p>
   </div>
   <div class="showcase-media">
     <!-- Carrusel con TODAS las piezas de motion — click abre el lightbox con detalle -->
     <div class="showcase-carousel" id="motion-carousel">
-      <div class="carousel-slide active" onclick="openLightboxMotion('motion1')"><video src="CUMMINGS-FORMULA-SLV1.mp4" muted loop playsinline autoplay></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('motion2')"><video src="PISTACHO3D.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('motion3')"><video src="SOAP_PARTICULASv4.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('motion4')"><video src="LogoGlith.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('motion5')"><video src="MODO-1-Trim.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('motion6')"><video src="GALDERMA.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('motion7')"><video src="Logo4.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('motion8')"><video src="GoogleCloud.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('motion9')"><video src="INSIDER2026-3Dv2.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('motion10')"><video src="MANO-V2.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('motion11')"><video src="magnific_promptcreate-a-professional-3d-holographic-animati_wan_720p_1-1_30fps_1447.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide active" onclick="openLightboxMotion('motion1')"><video src="CUMMINGS-FORMULA-SLV1.mp4" muted loop playsinline autoplay preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion2')"><video src="PISTACHO3D.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion3')"><video src="SOAP_PARTICULASv4.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion4')"><video src="LogoGlith.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion5')"><video src="MODO-1-Trim.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion6')"><video src="GALDERMA.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion7')"><video src="Logo4.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion8')"><video src="GoogleCloud.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion9')"><video src="INSIDER2026-3Dv2.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion10')"><video src="MANO-V2.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('motion11')"><video src="magnific_promptcreate-a-professional-3d-holographic-animati_wan_720p_1-1_30fps_1447.mp4" muted loop playsinline preload="none"></video></div>
     </div>
     <div class="carousel-dots" id="motion-dots"></div>
   </div>
@@ -711,7 +712,7 @@
   </div>
   <div class="showcase-media">
     <div class="showcase-carousel" id="branding-carousel">
-      <div class="carousel-slide active" onclick="openLightboxMotion('branding1')"><video src="FinalRender.mp4" muted loop playsinline autoplay></video></div>
+      <div class="carousel-slide active" onclick="openLightboxMotion('branding1')"><video src="FinalRender.mp4" muted loop playsinline autoplay preload="none"></video></div>
     </div>
     <div class="carousel-dots" id="branding-dots"></div>
   </div>
@@ -722,17 +723,18 @@
 ══════════════════════════════════════════════════════════ -->
 <section id="eventos" class="showcase-section">
   <div class="showcase-text">
-    <p class="showcase-kicker reveal" data-es="Eventos &amp; Activaciones" data-en="Events &amp; Activations">Eventos &amp; Activaciones</p>
+    <p class="showcase-kicker reveal" data-es="Eventos &amp; Activaciones" data-en="Events &amp; Activations">Experiencias en vivo</p>
     <h2 class="showcase-title reveal reveal-delay-1" data-es="Eventos<br>&amp; activaciones" data-en="Events<br>&amp; activations">Eventos<br>&amp; activaciones</h2>
     <p class="showcase-sub reveal reveal-delay-2"
       data-es="Cobertura técnica y producción audiovisual de expos, activaciones de marca y eventos en vivo."
       data-en="Technical coverage and audiovisual production for expos, brand activations and live events.">
-      Cobertura técnica y producción audiovisual de expos, activaciones de marca y eventos en vivo.
+      Cobertura técnica audiovisual y producción de expos, activaciones de marca y eventos.
+      Festivales | Premieres | Summits | Pop-ups | Workshops | Networking
     </p>
   </div>
   <div class="showcase-media">
     <div class="showcase-carousel" id="eventos-carousel">
-      <div class="carousel-slide active" onclick="openLightboxMotion('eventos1')"><video src="COMP-EVENTS.mp4" muted loop playsinline autoplay></video></div>
+      <div class="carousel-slide active" onclick="openLightboxMotion('eventos1')"><video src="COMP-EVENTS.mp4" muted loop playsinline autoplay preload="none"></video></div>
     </div>
     <div class="carousel-dots" id="eventos-dots"></div>
   </div>
@@ -753,7 +755,7 @@
   </div>
   <div class="showcase-media">
     <div class="showcase-carousel" id="webdesign-carousel">
-      <div class="carousel-slide active" onclick="openLightboxMotion('webdesign1')"><video src="Render.mp4" muted loop playsinline autoplay></video></div>
+      <div class="carousel-slide active" onclick="openLightboxMotion('webdesign1')"><video src="Render.mp4" muted loop playsinline autoplay preload="none"></video></div>
     </div>
     <div class="carousel-dots" id="webdesign-dots"></div>
   </div>
@@ -765,18 +767,18 @@
 <section id="galeria" class="showcase-section">
   <div class="showcase-text">
     <p class="showcase-kicker reveal" data-es="Fotografía" data-en="Photography">Fotografía</p>
-    <h2 class="showcase-title reveal reveal-delay-1" data-es="Galería<br>fotográfica" data-en="Photo<br>gallery">Galería<br>fotográfica</h2>
+    <h2 class="showcase-title reveal reveal-delay-1" data-es="Galería<br>fotográfica" data-en="Photo<br>gallery">Galería<br></h2>
     <p class="showcase-sub reveal reveal-delay-2"
       data-es="Registro documental, retratos y fotografía de producción."
       data-en="Documentary photography, portraits and production stills.">
-      Registro documental, retratos y fotografía de producción.
+      Registro, retratos y fotografía de producción.
+      Dirección | Producción | Sistemas de Iluminación y Camara | Arte | Styling | Scouting
     </p>
   </div>
   <div class="showcase-media">
     <!-- Carrusel con TODAS las fotos — click abre el lightbox con navegación entre todas -->
     <div class="showcase-carousel" id="foto-carousel">
       <div class="carousel-slide active" onclick="openSerieAt('fotos', 0)"><img src="foto1.jpg" alt="Fotografía 1"></div>
-      <div class="carousel-slide" onclick="openSerieAt('fotos', 1)"><img src="foto6.jpg" alt="Fotografía 2"></div>
       <div class="carousel-slide" onclick="openSerieAt('fotos', 2)"><img src="foto9.jpg" alt="Fotografía 3"></div>
       <div class="carousel-slide" onclick="openSerieAt('fotos', 3)"><img src="foto10.jpg" alt="Fotografía 4"></div>
       <div class="carousel-slide" onclick="openSerieAt('fotos', 4)"><img src="foto11.jpg" alt="Fotografía 5"></div>
@@ -801,7 +803,7 @@
     <p class="showcase-sub reveal reveal-delay-2"
       data-es="Gráfica digital, diseño de personajes e identidades visuales."
       data-en="Digital graphics, character design and visual identities.">
-      Gráfica digital, diseño de personajes e identidades visuales.
+      Gráfica digital, diseño sintético e identidades visuales.
     </p>
   </div>
   <div class="showcase-media">
@@ -831,7 +833,7 @@
 <!-- CORTO 1 — El Abrazo de la Marea -->
 <section id="cortometrajes" class="showcase-section corto-showcase">
   <div class="showcase-text">
-    <p class="showcase-kicker reveal" data-es="Metrajes · Selección oficial" data-en="Short films · Official selection">Metrajes · Selección oficial</p>
+    <p class="showcase-kicker reveal" data-es="Metrajes · Selección oficial" data-en="Short films · Official selection">Cortometraje · Selección oficial</p>
     <h2 class="showcase-title reveal reveal-delay-1">El Abrazo<br>de la Marea</h2>
     <p class="showcase-sub reveal reveal-delay-2" data-es="Año · Duración · Género" data-en="Year · Runtime · Genre">2023</p>
     <p class="showcase-sub reveal reveal-delay-2"
@@ -842,11 +844,11 @@
   </div>
   <div class="showcase-media">
     <div class="showcase-carousel" id="eadlm-carousel">
-      <div class="carousel-slide active" onclick="openLightboxMotion('eadlm1')"><video src="ElAbrazoDeLaMarea1.mp4" muted loop playsinline autoplay></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('eadlm2')"><video src="ElAbrazoDeLaMarea2.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('eadlm3')"><video src="ElAbrazoDeLaMarea3.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('eadlm4')"><video src="ElAbrazoDeLaMarea4.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('eadlm5')"><video src="ElAbrazoDeLaMarea5.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide active" onclick="openLightboxMotion('eadlm1')"><video src="ElAbrazoDeLaMarea1.mp4" muted loop playsinline autoplay preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('eadlm2')"><video src="ElAbrazoDeLaMarea2.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('eadlm3')"><video src="ElAbrazoDeLaMarea3.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('eadlm4')"><video src="ElAbrazoDeLaMarea4.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('eadlm5')"><video src="ElAbrazoDeLaMarea5.mp4" muted loop playsinline preload="none"></video></div>
     </div>
     <div class="festival-badge">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -870,11 +872,11 @@
   </div>
   <div class="showcase-media">
     <div class="showcase-carousel" id="nh-carousel">
-      <div class="carousel-slide active" onclick="openLightboxMotion('nh2')"><video src="nh2.mp4" muted loop playsinline autoplay></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('nh3')"><video src="NH3.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('nh4')"><video src="NH4.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('nh5')"><video src="NH5.mp4" muted loop playsinline></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('nh6')"><video src="NH6.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide active" onclick="openLightboxMotion('nh2')"><video src="nh2.mp4" muted loop playsinline autoplay preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('nh3')"><video src="NH3.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('nh4')"><video src="NH4.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('nh5')"><video src="NH5.mp4" muted loop playsinline preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('nh6')"><video src="NH6.mp4" muted loop playsinline preload="none"></video></div>
     </div>
     <div class="festival-badge">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -893,13 +895,12 @@
     <p class="showcase-sub reveal reveal-delay-2"
       data-es="Descripción del cortometraje."
       data-en="Short film description.">
-      Descripción del cortometraje.
     </p>
   </div>
   <div class="showcase-media">
     <div class="showcase-carousel" id="plv-carousel">
-      <div class="carousel-slide active" onclick="openLightboxMotion('plv1')"><video src="PLV1.mp4" muted loop playsinline autoplay></video></div>
-      <div class="carousel-slide" onclick="openLightboxMotion('plv2')"><video src="PLV2.mp4" muted loop playsinline></video></div>
+      <div class="carousel-slide active" onclick="openLightboxMotion('plv1')"><video src="PLV1.mp4" muted loop playsinline autoplay preload="none"></video></div>
+      <div class="carousel-slide" onclick="openLightboxMotion('plv2')"><video src="PLV2.mp4" muted loop playsinline preload="none"></video></div>
     </div>
     <div class="carousel-dots" id="plv-dots"></div>
   </div>
@@ -1127,7 +1128,7 @@
 <div class="lb-overlay" id="lightbox-motion" onclick="closeLightboxMotionOutside(event)">
   <div class="lb-box">
     <div class="lb-header"><div><div class="lb-title" id="lbm-title"></div><div class="lb-client" id="lbm-client"></div></div><button class="lb-close" onclick="closeLightboxMotion()">&#x2715;</button></div>
-    <div class="lb-video-wrap"><video id="lbm-video" controls autoplay playsinline><source id="lbm-source" src="" type="video/mp4"></video></div>
+    <div class="lb-video-wrap"><video id="lbm-video" controls autoplay playsinline preload="none"><source id="lbm-source" src="" type="video/mp4"></video></div>
     <div class="lb-desc" id="lbm-desc"></div>
   </div>
 </div>
@@ -1327,4 +1328,159 @@ function openSerieAt(key, idx) {
   document.body.style.overflow = 'hidden';
 }
 function _showSeriePhoto() {
-  va
+  var s = series[serieActive];
+  document.getElementById('lb-img').src = s.photos[serieIndex];
+  document.getElementById('lb-serie-title').textContent   = s.title;
+  document.getElementById('lb-serie-counter').textContent = (serieIndex + 1) + ' / ' + s.photos.length;
+  var multiple = s.photos.length > 1;
+  var prev = document.getElementById('lb-serie-prev');
+  var next = document.getElementById('lb-serie-next');
+  prev.style.display = multiple ? 'flex' : 'none';
+  next.style.display = multiple ? 'flex' : 'none';
+  prev.style.opacity = serieIndex === 0 ? '0.3' : '1';
+  next.style.opacity = serieIndex === s.photos.length - 1 ? '0.3' : '1';
+}
+function serieNext() {
+  if (!serieActive) return;
+  var s = series[serieActive];
+  if (serieIndex < s.photos.length - 1) { serieIndex++; _showSeriePhoto(); }
+}
+function seriePrev() {
+  if (!serieActive) return;
+  if (serieIndex > 0) { serieIndex--; _showSeriePhoto(); }
+}
+
+/* ══ CARRUSELES DE LOS SHOWCASE (motion / foto / ilustración) ══
+   Función genérica: rota entre TODAS las piezas de la disciplina,
+   con puntos de navegación. El click en el slide activo abre el
+   lightbox correspondiente (definido inline en cada .carousel-slide).
+*/
+function initShowcaseCarousel(carouselId, dotsId, intervalMs) {
+  var container = document.getElementById(carouselId);
+  var slides = document.querySelectorAll('#' + carouselId + ' .carousel-slide');
+  var dots = document.getElementById(dotsId);
+  var cur = 0, timer = null, started = false;
+  if (!slides.length || !dots) return;
+  if (slides.length > 1) {
+    slides.forEach(function(_, i) {
+      var d = document.createElement('button');
+      d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      d.onclick = function(e) { e.stopPropagation(); goTo(i); };
+      dots.appendChild(d);
+    });
+  }
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    var ov = slides[cur].querySelector('video'); if (ov) ov.pause();
+    dots.children[cur].classList.remove('active');
+    cur = n % slides.length;
+    slides[cur].classList.add('active');
+    var nv = slides[cur].querySelector('video');
+    if (nv) { nv.currentTime = 0; nv.play().catch(function(){}); }
+    dots.children[cur].classList.add('active');
+  }
+  /* Lazy: solo empieza a cargar/reproducir cuando el carrusel entra en pantalla,
+     y se pausa cuando sale — evita que el navegador intente bajar todos los
+     videos de golpe al cargar la página (causa principal de que se trabe). */
+  function start() {
+    if (started) return;
+    started = true;
+    var v = slides[cur].querySelector('video');
+    if (v) v.play().catch(function(){});
+    if (slides.length > 1) timer = setInterval(function() { goTo(cur + 1); }, intervalMs || 5000);
+  }
+  function stop() {
+    if (timer) { clearInterval(timer); timer = null; }
+    var v = slides[cur].querySelector('video');
+    if (v) v.pause();
+    started = false;
+  }
+  if (container && 'IntersectionObserver' in window) {
+    var carouselObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) start(); else stop(); });
+    }, { threshold: 0.15 });
+    carouselObserver.observe(container);
+  } else {
+    start();
+  }
+}
+initShowcaseCarousel('motion-carousel', 'motion-dots', 5000);
+initShowcaseCarousel('branding-carousel', 'branding-dots', 5000);
+initShowcaseCarousel('eventos-carousel', 'eventos-dots', 5000);
+initShowcaseCarousel('webdesign-carousel', 'webdesign-dots', 5000);
+initShowcaseCarousel('foto-carousel', 'foto-dots', 4000);
+initShowcaseCarousel('ilustracion-carousel', 'ilustracion-dots', 4500);
+initShowcaseCarousel('eadlm-carousel', 'eadlm-dots', 5000);
+initShowcaseCarousel('nh-carousel', 'nh-dots', 5000);
+initShowcaseCarousel('plv-carousel', 'plv-dots', 5000);
+
+/* ══ CAROUSEL HERO ══
+   Funciona en desktop Y mobile.
+   En mobile usa preload="metadata" así no bloquea la carga inicial
+   pero los videos sí se reproducen cuando toca.
+*/
+(function() {
+  var slides = document.querySelectorAll('#hero-carousel .hero-slide');
+  var dotsEl = document.getElementById('hero-dots');
+  if (!slides.length || !dotsEl) return;
+  var cur = 0;
+
+  /* En mobile: cambiar preload="none" a "metadata" para que se vean */
+  if (window.innerWidth <= 768) {
+    slides.forEach(function(slide) {
+      var v = slide.querySelector('video');
+      if (v) {
+        v.setAttribute('preload', 'metadata');
+        /* Restaurar src si fue removido por versiones anteriores */
+        if (!v.getAttribute('src') && v.dataset.src) {
+          v.setAttribute('src', v.dataset.src);
+          v.load();
+        }
+      }
+    });
+  }
+
+  slides.forEach(function(_, i) {
+    var d = document.createElement('button');
+    d.className = 'hero-dot' + (i === 0 ? ' active' : '');
+    d.onclick = function() { goTo(i); };
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    var oldV = slides[cur].querySelector('video');
+    if (oldV) oldV.pause();
+    dotsEl.children[cur].classList.remove('active');
+    cur = n % slides.length;
+    slides[cur].classList.add('active');
+    var newV = slides[cur].querySelector('video');
+    if (newV) { newV.currentTime = 0; newV.play().catch(function(){}); }
+    dotsEl.children[cur].classList.add('active');
+  }
+
+  var fv = slides[0].querySelector('video');
+  if (fv) fv.play().catch(function(){});
+
+  setInterval(function() { goTo(cur + 1); }, 5000);
+})();
+
+/* ══ TEMA CLARO ══ */
+function toggleLight() {
+  var isLight = document.body.classList.toggle('light');
+  var btn = document.getElementById('btn-dark');
+  if (btn) btn.classList.toggle('active', isLight);
+  localStorage.setItem('fg-light', isLight ? '1' : '0');
+}
+
+/* ══ RESTAURAR PREFERENCIAS ══ */
+(function() {
+  if (localStorage.getItem('fg-light') === '1') {
+    document.body.classList.add('light');
+    var b = document.getElementById('btn-dark');
+    if (b) b.classList.add('active');
+  }
+})();
+</script>
+</body>
+</html>
